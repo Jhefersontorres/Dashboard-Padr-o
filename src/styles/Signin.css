@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  
+}
+
+#container{
+  text-align: -webkit-right;
+  margin: 100px 0;
+  height: 100%;
+  width: 100%;
+  place-items: center;
+  padding: 100px;
+}
+
+.wrapper{
+  overflow: hidden;
+  max-width: 28rem;
+  height: 30rem;
+  background: #fff;
+  padding: 50px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+}
+
+.wrapper .title-text{
+  display: flex;
+  width: 200%;
+}
+
+.wrapper .title{
+  width: 50%;
+  font-size: 35px;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
+}
+
+.wrapper .slide-controls{
+  position: relative;
+  display: flex;
+  height: 50px;
+  width: 100%;
+  overflow: hidden;
+  margin: 30px 0 10px 0;
+  justify-content: space-between;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+}
+
+.wrapper .form-container{
+  width: 100%;
+  overflow: hidden;
+}
+.form-container .form-inner{
+  display: flex;
+  width: 200%;
+}
+.form-container .form-inner Form{
+  width: 50%;
+  transition: all 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
+}
+.field{
+  height: 70px;
+  width: 100%;
+  margin-top: 30px;
+}
+.field Input{
+    height: 4rem;
+    width: 100%;
+    outline: none;
+    padding-left: 1rem;
+    border-radius: 10px;
+    border: 1px solid lightgrey;
+    border-bottom-width: 2px;
+    font-size: 17px;
+    transition: all 0.3s ease;
+}
+.form-inner Form .field Input:focus{
+  border-color: #1475c5;
+  /* box-shadow: inset 0 0 3px #fb6aae; */
+}
+.form-inner Form .field Input::placeholder{
+  color: #999;
+  transition: all 0.3s ease;
+}
+Input:focus::placeholder{
+  color: #b3b3b3;
+}
+
+form .btn{
+  height: 50px;
+  width: 100%;
+  border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+}
+form .btn .btn-layer{
+  height: 100%;
+  width: 300%;
+  position: absolute;
+  left: -100%;
+  background: -webkit-linear-gradient(right,#1475c5, #42a6fa,#1475c5, #42a6fa);
+  border-radius: 5px;
+  transition: all 0.4s ease;;
+}
+form .btn:hover .btn-layer{
+  left: 0;
+}
+form .btn Input[type="submit"]{
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  position: relative;
+  background: none;
+  border: none;
+  color: #fff;
+  padding-left: 0;
+  border-radius: 5px;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+}
