@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 
 import { Form } from "@unform/web";
 import * as Yup from 'yup';
-import Input from "../../components/Inputs/input";
+import Input from "../../components/unform/Input/input";
 
 import '../../styles/Signin.css'
 

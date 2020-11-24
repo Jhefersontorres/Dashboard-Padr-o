@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
   
   menu:{
-    
+    marginLeft: theme.spacing(5), 
     
   },
   listitens:{
@@ -186,9 +186,7 @@ export default function PrimarySearchAppBar() {
       <AppBar position="static">
         <Toolbar>
         
-          <Typography className={classes.title} variant="h6" noWrap onClick={() => window.location.href = "/"}>
-           Ecommerce NPD
-          </Typography>
+  
           <div className={classes.menu}>
           <ListItem className={classes.listitens}> 
             <ListItemText primary="Dashboard" onClick={() => window.location.href = "/"} />

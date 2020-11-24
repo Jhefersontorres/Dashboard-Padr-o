@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 
 import { Form } from "@unform/web";
 import * as Yup from 'yup';
-import Input from "../../components/Inputs/input";
+import Input from "../unform/Inputs/input";
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
