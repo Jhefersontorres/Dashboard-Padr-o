@@ -6,10 +6,19 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 
+import { Form } from "@unform/web";
+import * as Yup from 'yup';
+import Input from '../../components/unform/Input/input';
+
 import SideBar from "../../components/sidebar/sidebar";
 import "../../styles/grcasa.css";
 
-export default function () {
+export default function Grcasa() {
+  //form
+  const formRef = useRef(null);
+  //get/post
+  const [GRCasa, setGrCasa] = useState([])
+
   //modal
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
@@ -20,11 +29,84 @@ export default function () {
     setOpen(false);
   };
 
+  function handleSubmit(data, { reset }) {
+    try {
+      const schema = Yup.object().shape({
+        descricao: Yup.string()
+          .min(3, "Nome tem que ter mais de 3 letras")
+          .required("O nome é obrigatorio"),
+        especificacao: Yup.string()
+          .required("CNPJ é obrigatorio"),
+      });
+
+      schema.validate(data, { abortEarly: false, });
+
+      formRef.current.setErrors({});
+
+      cadGrCasa(data);
+
+      reset();
+    }
+    catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const errorMessages = {};
+
+        err.inner.forEach(error => {
+          errorMessages[error.path] = error.message;
+        })
+
+        formRef.current.setErrors(errorMessages);
+      }
+    }
+  }
+
+  function cadGrCasa(dataGrCasa) {
+    fetch('', {
+      headers: {
+        "Content-Type": "application/json"
+      },
+      method: "post",
+      body: JSON.stringify({
+        descricao: dataGrCasa.descricao,
+        especificacoes: dataGrCasa.especificacao
+      })
+    }).then(response => response.json())
+      .then(response => {
+        handleClose();
+        window.location.reload();
+        console.log(response);
+      }).catch(error => {
+        console.log(error);
+      })
+  }
+
+
+  function getGrCasa() {
+    fetch('http://localhost:3033/sistemas/', {
+      method: "GET"
+    }).then(response => response.json())
+      .then(response => {
+
+        console.log(response)
+
+        setGrCasa(response.data);
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
+  useEffect(() => {
+    getGrCasa();
+    //setLoading(true);
+    //setLoading(false);
+  }, []);
+
   return (
     <React.Fragment>
       <div classename="container">
         <SideBar />
-        <div id="teste">
+        <div id="top-bar">
           <i class="fa fa-user-circle"></i>
           <p>Jheferson torres</p>
         </div>
@@ -37,10 +119,16 @@ export default function () {
             className="grid"
           >
             <Grid item xs={12} md={6}>
-              <Paper className="paper">
-                <div classename="hearder">
-                  <button onClick={handleOpen}>NOVO</button>
+              <div className="paper-hearder">
+                <div id="hearder">
                   <span>GR EM CASA </span>
+                  <button
+                    classename="novo"
+                    onClick={handleOpen}
+                  >
+                    NOVO
+                    </button>
+
                 </div>
 
                 <Modal
@@ -50,27 +138,52 @@ export default function () {
                   open={open}
                   closeAfterTransition
                   BackdropComponent={Backdrop}
-                  BackdropProps={{ timeout: 700 }}
+                  BackdropProps={{ timeout: 900 }}
                 >
-                  <div>
-                    <button type="submit" variant="contained" color="primary">
-                      Salvar
-                    </button>
-                    <button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleClose}
-                      BackdropProps={{ timeout: 700 }}
-                    >
-                      Voltar
-                    </button>
-                  </div>
-                </Modal>
+                  <Fade in={open}>
+                    <div className="paper">
 
-                <div classname="cards-views"></div>
-              </Paper>
+                      <Form ref={formRef} onSubmit={handleSubmit} className="form " >
+                        <h2 id="spring-modal-title">CADASTRO DE SISTEMA</h2>
+                        <Input
+                          name="descricao"
+                          id="descricao"
+                          label="DESCRIÇÃO"
+                          type="text"
+                          required
+                        />
+                        <Input
+                          name="especificacao"
+                          id="especificacao"
+                          label="ESPECIFICAÇÃO"
+                          type="text"
+                          required
+                        />
+
+                        <div className="acoes">
+                          <button type="submit">
+                            Salvar
+                          </button>
+                          <button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleClose}
+                            BackdropProps={{ timeout: 1000 }}
+                          >
+                            Voltar
+                    </button>
+                        </div>
+                      </Form>
+                    </div>
+                  </Fade>
+                </Modal>
+              </div>
+
               <Paper>
-                <h1>tsteste</h1>
+                <div classname="cards-views">
+
+                  <h1>cards</h1>
+                </div>
               </Paper>
             </Grid>
           </Grid>
