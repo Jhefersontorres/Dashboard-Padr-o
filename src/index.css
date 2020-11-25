@@ -4,3 +4,13 @@ body {
   font-family: sans-serif;
   background: "#dfdfdf";
 }
+
+button{
+  height: 50px;
+  width: 150px;
+  border-radius: 5px;
+ 
+  transition: all 0.4s ease;;
+  background: -webkit-linear-gradient(right,#1475c5, #42a6fa);
+
+}

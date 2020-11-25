@@ -1,0 +1,18 @@
+#teste{
+    background: #b7b7b7;
+    height: 77px;
+    display: flex;
+    flex: 1 1;
+    justify-content: flex-end;
+    text-align: ;
+    align-items: center;
+   
+}
+
+#teste i {
+    padding: 10px;
+}
+#teste p {
+    padding: 10px;
+    margin-right: 30px;
+}
