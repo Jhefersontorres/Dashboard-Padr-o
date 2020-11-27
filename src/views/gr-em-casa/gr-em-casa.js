@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 
+import SideBar from "../../components/sidebar/sidebar";
+
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
@@ -10,10 +12,21 @@ import { Form } from "@unform/web";
 import * as Yup from 'yup';
 import Input from '../../components/unform/Input/input';
 
-import SideBar from "../../components/sidebar/sidebar";
+import CardPostGrcasa from '../../components/cards/Card-GRemCasa'
+
+import GRemCasaContext from '../../components/Contexts/GRemCasaContext';
+import Pagination from "../../components/pagination/Pagination";
+import Posts from "../../components/pagination/Posts";
+
 import "../../styles/grcasa.css";
 
+
 export default function Grcasa() {
+  //pagination
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(3);
   //form
   const formRef = useRef(null);
   //get/post
@@ -82,7 +95,7 @@ export default function Grcasa() {
 
 
   function getGrCasa() {
-    fetch('http://localhost:3033/sistemas/', {
+    fetch('http://localhost:3333/gr-casa', {
       method: "GET"
     }).then(response => response.json())
       .then(response => {
@@ -98,9 +111,16 @@ export default function Grcasa() {
 
   useEffect(() => {
     getGrCasa();
-    //setLoading(true);
-    //setLoading(false);
+    setLoading(true);
+    setLoading(false);
   }, []);
+
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = GRCasa.slice(indexOfFirstPost, indexOfLastPost);
+
+  // Change page
+  const paginate = pageNumber => setCurrentPage(pageNumber);
 
   return (
     <React.Fragment>
@@ -144,7 +164,7 @@ export default function Grcasa() {
                     <div className="paper">
 
                       <Form ref={formRef} onSubmit={handleSubmit} className="form " >
-                        <h2 id="spring-modal-title">CADASTRO DE SISTEMA</h2>
+                        <h2 id="spring-modal-title">CADASTRO POTS GR EM CASA</h2>
                         <Input
                           name="descricao"
                           id="descricao"
@@ -181,8 +201,21 @@ export default function Grcasa() {
 
               <Paper>
                 <div classname="cards-views">
-
-                  <h1>cards</h1>
+                  <GRemCasaContext.Provider value={{ getGrCasa }}>
+                    {currentPosts.map(postgrcasa => (
+                      <CardPostGrcasa datagrcasa={postgrcasa} />
+                    ))}
+                  </GRemCasaContext.Provider>
+                  <div className='container mt-5'>
+                    <Posts posts={currentPosts} loading={loading} />
+                    <Pagination
+                      postsPerPage={postsPerPage}
+                      totalPosts={GRCasa.length}
+                      paginate={paginate}
+                      color="primary"
+                      variant="outlined" shape="rounded"
+                    />
+                  </div>
                 </div>
               </Paper>
             </Grid>

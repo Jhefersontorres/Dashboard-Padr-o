@@ -9,17 +9,19 @@ import Fade from "@material-ui/core/Fade";
 import { Form } from "@unform/web";
 import * as Yup from 'yup';
 import Input from '../../components/unform/Input/input';
+import InputFile from '../../components/unform/InputFile/fileinput';
+
 
 import SideBar from "../../components/sidebar/sidebar";
-import "../../styles/grcasa.css";
+import "../../styles/event.css";
 
 export default function Event() {
-//form
+  //form
   const formRef = useRef(null);
-//get/post
+  //get/post
   const [Event, setEvent] = useState([])
 
-//modal
+  //modal
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
     setOpen(true);
@@ -29,23 +31,19 @@ export default function Event() {
     setOpen(false);
   };
 
-  function handleSubmit(data, { reset }) {
+  async function handleSubmit(data, { reset }) {
     try {
       const schema = Yup.object().shape({
-        descricao: Yup.string()
-          .min(3, "Nome tem que ter mais de 3 letras")
-          .required("O nome é obrigatorio"),
-        especificacao: Yup.string()
-          .required("CNPJ é obrigatorio"),
+  
       });
 
-      schema.validate(data, { abortEarly: false, });
+      await schema.validate(data, { abortEarly: false, });
 
       formRef.current.setErrors({});
 
       cadEvent(data);
 
-      reset();
+      reset(); 
     }
     catch (err) {
       if (err instanceof Yup.ValidationError) {
@@ -60,27 +58,29 @@ export default function Event() {
     }
   }
 
-  function cadEvent (dataEvent){
-    fetch('', {
-      headers: {
-        "Content-Type": "application/json"
-      },
+
+  function cadEvent(dataEvent) {
+    console.log(dataEvent);
+    let formDataEvent = new FormData();
+    
+    formDataEvent.append("description", dataEvent.description)
+    formDataEvent.append("event_image", dataEvent.event_image)
+    formDataEvent.append("link", dataEvent.link)
+
+    fetch('http://localhost:3333/event', {
       method: "post",
-      body: JSON.stringify({
-        descricao: dataEvent.descricao,
-        especificacoes: dataEvent.especificacao
-      })
+        body:formDataEvent
     }).then(response => response.json())
       .then(response => {
-        handleClose();
-        window.location.reload();
+        
         console.log(response);
       }).catch(error => {
         console.log(error);
-    })
+      })
   }
 
 
+//initial function GET - function papa
   function getEvent() {
     fetch('http://localhost:3033/sistemas/', {
       method: "GET"
@@ -88,7 +88,7 @@ export default function Event() {
       .then(response => {
 
         console.log(response)
-      
+
         setEvent(response.data);
       })
       .catch(err => {
@@ -106,7 +106,7 @@ export default function Event() {
     <React.Fragment>
       <div classename="container">
         <SideBar />
-        <div id="teste">
+        <div id="top-bar">
           <i class="fa fa-user-circle"></i>
           <p>Jheferson torres</p>
         </div>
@@ -119,12 +119,16 @@ export default function Event() {
             className="grid"
           >
             <Grid item xs={12} md={6}>
-              <Paper className="paper">
-                <div classename="hearder">
-                  <button onClick={handleOpen}>NOVO</button>
-                  <span>GR EM CASA </span>
+              <div className="paper-hearder">
+                <div id="hearder">
+                  <span> EVENTOS EM GERAL  </span>
+                  <button
+                    classename="novo"
+                    onClick={handleOpen}
+                  >
+                    NOVO
+                  </button>
                 </div>
-
                 <Modal
                   aria-labelledby="transition-modal-title"
                   aria-describedby="transition-modal-description"
@@ -132,49 +136,58 @@ export default function Event() {
                   open={open}
                   closeAfterTransition
                   BackdropComponent={Backdrop}
-                  BackdropProps={{ timeout: 700 }}
+                  BackdropProps={{ timeout: 900 }}
                 >
                   <Fade in={open}>
                     <div className="paper">
-                      <h2 id="spring-modal-title">CADASTRO DE SISTEMA</h2>
-                      <Form ref={formRef} onSubmit={handleSubmit} className= "form " >
+
+                      <Form ref={formRef} onSubmit={handleSubmit} className="form " >
+                        <h2 id="spring-modal-title">CADASTRO EVENTOS</h2>
                         <Input
-                          name="descricao"
-                          id="descricao"
+                          name="description"
+                          id="description"
                           label="DESCRIÇÃO"
                           type="text"
                           required
                         />
+                        <InputFile
+                          name="event_image"
+                          id="event_image"
+                          label="IMAGEM / BANNER"
+                          type="file"
+                          required
+                        />
                         <Input
-                          name="especificacao"
-                          id="especificacao"
-                          label="ESPECIFICAÇÃO"
+                          name="link"
+                          id="link"
+                          label="LINK FORMULÁRIO DE CADASTRO"
                           type="text"
                           required
                         />
-
-                        <div>
-                          <button type="submit" variant="contained" color="primary">
+                        <div className="acoes">
+                          <button type="submit">
                             Salvar
                           </button>
                           <button
                             variant="contained"
                             color="primary"
                             onClick={handleClose}
-                            BackdropProps={{ timeout: 700 }}
+                            BackdropProps={{ timeout: 1000 }}
                           >
                             Voltar
-                    </button>
+                          </button>
                         </div>
                       </Form>
                     </div>
                   </Fade>
                 </Modal>
+              </div>
 
-                <div classname="cards-views"></div>
-              </Paper>
               <Paper>
-                <h1>cards</h1>
+                <div classname="cards-views">
+
+                  <h1>cards</h1>
+                </div>
               </Paper>
             </Grid>
           </Grid>

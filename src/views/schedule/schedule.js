@@ -11,15 +11,23 @@ import * as Yup from 'yup';
 import Input from '../../components/unform/Input/input';
 
 import SideBar from "../../components/sidebar/sidebar";
-import "../../styles/grcasa.css";
+import "../../styles/schedule.css";
+import CardSchedule from '../../components/cards/Card-Schedule'
+
+import ScheduleContext from "../../components/Contexts/ScheduleContext";
+import Pagination from "../../components/pagination/Pagination";
+import Posts from "../../components/pagination/Posts";
 
 export default function Schedule() {
-//form
-  const formRef = useRef(null);
-//get/post
-  const [Schedule, setSchedule] = useState([])
 
-//modal
+
+
+  //form
+  const formRef = useRef(null);
+  //get/post
+  const [schedules, setSchedule] = useState([])
+
+  //modal
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
     setOpen(true);
@@ -29,67 +37,62 @@ export default function Schedule() {
     setOpen(false);
   };
 
-  function handleSubmit(data, { reset }) {
-    try {
-      const schema = Yup.object().shape({
-        descricao: Yup.string()
-          .min(3, "Nome tem que ter mais de 3 letras")
-          .required("O nome é obrigatorio"),
-        especificacao: Yup.string()
-          .required("CNPJ é obrigatorio"),
-      });
-
-      schema.validate(data, { abortEarly: false, });
-
-      formRef.current.setErrors({});
-
-      cadSchedule(data);
-
-      reset();
-    }
-    catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const errorMessages = {};
-
-        err.inner.forEach(error => {
-          errorMessages[error.path] = error.message;
-        })
-
-        formRef.current.setErrors(errorMessages);
+ 
+    async function handleSubmit(data, { reset }) {
+      try {
+        const schema = Yup.object().shape({
+    
+        });
+  
+        await schema.validate(data, { abortEarly: false, });
+  
+        formRef.current.setErrors({});
+  
+        cadSchedule(data);
+  
+        reset(); 
+      }
+      catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errorMessages = {};
+  
+          err.inner.forEach(error => {
+            errorMessages[error.path] = error.message;
+          })
+  
+          formRef.current.setErrors(errorMessages);
+        }
       }
     }
-  }
-
-  function cadSchedule (dataSchedule){
-    fetch('', {
-      headers: {
-        "Content-Type": "application/json"
-      },
-      method: "post",
-      body: JSON.stringify({
-        descricao: dataSchedule.descricao,
-        especificacoes: dataSchedule.especificacao
-      })
-    }).then(response => response.json())
-      .then(response => {
-        handleClose();
-        window.location.reload();
-        console.log(response);
-      }).catch(error => {
-        console.log(error);
-    })
-  }
-
+    function cadSchedule(dataSchedule) {
+      console.log(dataSchedule);
+      fetch('http://localhost:3333/schedule/', {
+        headers: {
+          "Content-Type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify({
+          day: dataSchedule.day,
+          hour: dataSchedule.hour,
+          local: dataSchedule.local,
+          description: dataSchedule.description
+        })
+      }).then(response => response.json())
+        .then(response => {
+          
+          console.log(response);
+        }).catch(error => {
+          console.log(error);
+        })
+    }
 
   function getSchedule() {
-    fetch('http://localhost:3033/sistemas/', {
+    fetch('http://localhost:3333/schedule', {
       method: "GET"
     }).then(response => response.json())
       .then(response => {
-
+        setSchedule(response.data)
         console.log(response)
-      
-        setSchedule(response.data);
       })
       .catch(err => {
         console.log(err)
@@ -98,15 +101,14 @@ export default function Schedule() {
 
   useEffect(() => {
     getSchedule();
-    //setLoading(true);
-    //setLoading(false);
+    
   }, []);
 
   return (
     <React.Fragment>
       <div classename="container">
         <SideBar />
-        <div id="teste">
+        <div id="top-bar">
           <i class="fa fa-user-circle"></i>
           <p>Jheferson torres</p>
         </div>
@@ -119,10 +121,16 @@ export default function Schedule() {
             className="grid"
           >
             <Grid item xs={12} md={6}>
-              <Paper className="paper">
-                <div classename="hearder">
-                  <button onClick={handleOpen}>NOVO</button>
-                  <span>GR EM CASA </span>
+              <div className="paper-hearder">
+                <div id="hearder">
+                  <span>AGENDA SEMANAL </span>
+                  <button
+                    classename="novo"
+                    onClick={handleOpen}
+                  >
+                    NOVO
+                    </button>
+
                 </div>
 
                 <Modal
@@ -132,36 +140,53 @@ export default function Schedule() {
                   open={open}
                   closeAfterTransition
                   BackdropComponent={Backdrop}
-                  BackdropProps={{ timeout: 700 }}
+                  BackdropProps={{ timeout: 900 }}
                 >
                   <Fade in={open}>
                     <div className="paper">
-                      <h2 id="spring-modal-title">CADASTRO DE SISTEMA</h2>
-                      <Form ref={formRef} onSubmit={handleSubmit} className= "form " >
+
+                      <Form ref={formRef} onSubmit={handleSubmit} className="form " >
+                        <h2 id="spring-modal-title">CADASTRO POTS AGENDA</h2>
                         <Input
-                          name="descricao"
-                          id="descricao"
-                          label="DESCRIÇÃO"
-                          type="text"
+                          name="day"
+                          id="day"
+                          label="DATA"
+                          type="date"
                           required
                         />
                         <Input
-                          name="especificacao"
-                          id="especificacao"
-                          label="ESPECIFICAÇÃO"
+                          name="hour"
+                          id="hour"
+                          label="HORÁRIO"
                           type="text"
+                          required
+                        />
+                         <Input
+                          name="local"
+                          id="local"
+                          label="LOCAL"
+                          type="text"
+                          placeholder="Ex: IPR Central"
+                          required
+                        />
+                         <Input
+                          name="description"
+                          id="description"
+                          label="DESCRIÇÃO"
+                          type="text"
+                          placeholder="Ex: CULTO ALIANÇA"
                           required
                         />
 
-                        <div>
-                          <button type="submit" variant="contained" color="primary">
+                        <div className="acoes">
+                          <button type="submit">
                             Salvar
                           </button>
                           <button
                             variant="contained"
                             color="primary"
                             onClick={handleClose}
-                            BackdropProps={{ timeout: 700 }}
+                            BackdropProps={{ timeout: 1000 }}
                           >
                             Voltar
                     </button>
@@ -170,11 +195,50 @@ export default function Schedule() {
                     </div>
                   </Fade>
                 </Modal>
+              </div>
 
-                <div classname="cards-views"></div>
-              </Paper>
               <Paper>
-                <h1>cards</h1>
+                <div classname="cards-views">
+
+                  
+                    {schedules.map (postSchedule => (
+                      <div id="list" class="row">
+
+                      <div class="table-responsive col-md-12">
+                        <table class="table table-striped" cellspacing="0" cellpadding="0">
+                          <thead>
+                            <tr>
+                              <th>Data</th>
+                              <th>horario</th>
+                              <th>local</th>
+                              <th>descricao</th>
+                              <th class="actions">Ações</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+              
+                            <tr>
+                              <td>{postSchedule.day}</td>
+                              <td>{postSchedule.hour}</td>
+                              <td>{postSchedule.local}</td>
+                              <td>{postSchedule.description}</td>
+                              <td class="actions">
+                                <a class="btn btn-success btn-xs" href="view.html">Visualizar</a>
+                                <a class="btn btn-warning btn-xs" href="edit.html">Editar</a>
+                                <a class="btn btn-danger btn-xs" href="#" data-toggle="modal" data-target="#delete-modal">Excluir</a>
+                              </td>
+                            </tr>
+              
+                          </tbody>
+                        </table>
+              
+                      </div>
+                    </div>
+                      
+                    ))}
+                  
+                 
+                </div>
               </Paper>
             </Grid>
           </Grid>

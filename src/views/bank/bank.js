@@ -11,15 +11,15 @@ import * as Yup from 'yup';
 import Input from '../../components/unform/Input/input';
 
 import SideBar from "../../components/sidebar/sidebar";
-import "../../styles/grcasa.css";
+import "../../styles/bank.css";
 
 export default function Bank() {
-//form
+  //form
   const formRef = useRef(null);
-//get/post
+  //get/post
   const [Bank, setBank] = useState([])
 
-//modal
+  //modal
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
     setOpen(true);
@@ -60,7 +60,7 @@ export default function Bank() {
     }
   }
 
-  function cadBank (dataBank){
+  function cadBank(dataBank) {
     fetch('', {
       headers: {
         "Content-Type": "application/json"
@@ -77,7 +77,7 @@ export default function Bank() {
         console.log(response);
       }).catch(error => {
         console.log(error);
-    })
+      })
   }
 
 
@@ -88,7 +88,7 @@ export default function Bank() {
       .then(response => {
 
         console.log(response)
-      
+
         setBank(response.data);
       })
       .catch(err => {
@@ -106,7 +106,7 @@ export default function Bank() {
     <React.Fragment>
       <div classename="container">
         <SideBar />
-        <div id="teste">
+        <div id="top-bar">
           <i class="fa fa-user-circle"></i>
           <p>Jheferson torres</p>
         </div>
@@ -119,10 +119,16 @@ export default function Bank() {
             className="grid"
           >
             <Grid item xs={12} md={6}>
-              <Paper className="paper">
-                <div classename="hearder">
-                  <button onClick={handleOpen}>NOVO</button>
+              <div className="paper-hearder">
+                <div id="hearder">
                   <span>GR EM CASA </span>
+                  <button
+                    classename="novo"
+                    onClick={handleOpen}
+                  >
+                    NOVO
+                    </button>
+
                 </div>
 
                 <Modal
@@ -132,12 +138,13 @@ export default function Bank() {
                   open={open}
                   closeAfterTransition
                   BackdropComponent={Backdrop}
-                  BackdropProps={{ timeout: 700 }}
+                  BackdropProps={{ timeout: 900 }}
                 >
                   <Fade in={open}>
                     <div className="paper">
-                      <h2 id="spring-modal-title">CADASTRO DE SISTEMA</h2>
-                      <Form ref={formRef} onSubmit={handleSubmit} className= "form " >
+
+                      <Form ref={formRef} onSubmit={handleSubmit} className="form " >
+                        <h2 id="spring-modal-title">CADASTRO POTS GR EM CASA</h2>
                         <Input
                           name="descricao"
                           id="descricao"
@@ -153,15 +160,15 @@ export default function Bank() {
                           required
                         />
 
-                        <div>
-                          <button type="submit" variant="contained" color="primary">
+                        <div className="acoes">
+                          <button type="submit">
                             Salvar
                           </button>
                           <button
                             variant="contained"
                             color="primary"
                             onClick={handleClose}
-                            BackdropProps={{ timeout: 700 }}
+                            BackdropProps={{ timeout: 1000 }}
                           >
                             Voltar
                     </button>
@@ -170,11 +177,13 @@ export default function Bank() {
                     </div>
                   </Fade>
                 </Modal>
+              </div>
 
-                <div classname="cards-views"></div>
-              </Paper>
               <Paper>
-                <h1>cards</h1>
+                <div classname="cards-views">
+
+                  <h1>cards</h1>
+                </div>
               </Paper>
             </Grid>
           </Grid>
