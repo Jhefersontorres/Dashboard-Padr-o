@@ -105,6 +105,7 @@ export default function Schedule() {
   }, []);
 
   return (
+    
     <React.Fragment>
       <div classename="container">
         <SideBar />
@@ -196,12 +197,11 @@ export default function Schedule() {
                   </Fade>
                 </Modal>
               </div>
-
               <Paper>
                 <div classname="cards-views">
-
                   
-                    {schedules.map (postSchedule => (
+                  
+                    
                       <div id="list" class="row">
 
                       <div class="table-responsive col-md-12">
@@ -218,10 +218,10 @@ export default function Schedule() {
                           <tbody>
               
                             <tr>
-                              <td>{postSchedule.day}</td>
-                              <td>{postSchedule.hour}</td>
-                              <td>{postSchedule.local}</td>
-                              <td>{postSchedule.description}</td>
+                              <td>20/112002</td>
+                              <td>20:00</td>
+                              <td>IPR central</td>
+                              <td>culto de celebração</td>
                               <td class="actions">
                                 <a class="btn btn-success btn-xs" href="view.html">Visualizar</a>
                                 <a class="btn btn-warning btn-xs" href="edit.html">Editar</a>
@@ -231,13 +231,8 @@ export default function Schedule() {
               
                           </tbody>
                         </table>
-              
                       </div>
                     </div>
-                      
-                    ))}
-                  
-                 
                 </div>
               </Paper>
             </Grid>
@@ -245,5 +240,7 @@ export default function Schedule() {
         </Grid>
       </div>
     </React.Fragment>
+    
+  
   );
 }

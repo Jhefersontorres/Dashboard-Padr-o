@@ -198,24 +198,42 @@ export default function Grcasa() {
                   </Fade>
                 </Modal>
               </div>
-
               <Paper>
                 <div classname="cards-views">
-                  <GRemCasaContext.Provider value={{ getGrCasa }}>
-                    {currentPosts.map(postgrcasa => (
-                      <CardPostGrcasa datagrcasa={postgrcasa} />
-                    ))}
-                  </GRemCasaContext.Provider>
-                  <div className='container mt-5'>
-                    <Posts posts={currentPosts} loading={loading} />
-                    <Pagination
-                      postsPerPage={postsPerPage}
-                      totalPosts={GRCasa.length}
-                      paginate={paginate}
-                      color="primary"
-                      variant="outlined" shape="rounded"
-                    />
-                  </div>
+                  
+                  
+                    
+                      <div id="list" class="row">
+
+                      <div class="table-responsive col-md-12">
+                        <table class="table table-striped" cellspacing="0" cellpadding="0">
+                          <thead>
+                            <tr>
+                              <th>Data</th>
+                              <th>horario</th>
+                              <th>local</th>
+                              <th>descricao</th>
+                              <th class="actions">Ações</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+              
+                            <tr>
+                              <td>20/112002</td>
+                              <td>20:00</td>
+                              <td>IPR central</td>
+                              <td>culto de celebração</td>
+                              <td class="actions">
+                                <a class="btn btn-success btn-xs" href="view.html">Visualizar</a>
+                                <a class="btn btn-warning btn-xs" href="edit.html">Editar</a>
+                                <a class="btn btn-danger btn-xs" href="#" data-toggle="modal" data-target="#delete-modal">Excluir</a>
+                              </td>
+                            </tr>
+              
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
                 </div>
               </Paper>
             </Grid>
