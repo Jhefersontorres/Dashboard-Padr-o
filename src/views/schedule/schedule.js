@@ -19,9 +19,6 @@ import Pagination from "../../components/pagination/Pagination";
 import Posts from "../../components/pagination/Posts";
 
 export default function Schedule() {
-
-
-
   //form
   const formRef = useRef(null);
   //get/post
@@ -87,12 +84,9 @@ export default function Schedule() {
     }
 
   function getSchedule() {
-    fetch('http://localhost:3333/schedule', {
-      method: "GET"
-    }).then(response => response.json())
+    fetch('http://localhost:3333/schedule').then(response => response.json())
       .then(response => {
-        setSchedule(response.data)
-        console.log(response)
+        setSchedule(response)
       })
       .catch(err => {
         console.log(err)
@@ -199,45 +193,44 @@ export default function Schedule() {
 
               <Paper>
                 <div classname="cards-views">
-
+                    {
+                      schedules.length > 0 ?
+                        schedules.map(postSchedule => (
+                          <div id="list" class="row">
+    
+                          <div class="table-responsive col-md-12">
+                            <table class="table table-striped" cellspacing="0" cellpadding="0">
+                              <thead>
+                                <tr>
+                                  <th>Data</th>
+                                  <th>horario</th>
+                                  <th>local</th>
+                                  <th>descricao</th>
+                                  <th class="actions">Ações</th>
+                                </tr>
+                              </thead>
+                              <tbody>
                   
-                    {schedules.map (postSchedule => (
-                      <div id="list" class="row">
-
-                      <div class="table-responsive col-md-12">
-                        <table class="table table-striped" cellspacing="0" cellpadding="0">
-                          <thead>
-                            <tr>
-                              <th>Data</th>
-                              <th>horario</th>
-                              <th>local</th>
-                              <th>descricao</th>
-                              <th class="actions">Ações</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-              
-                            <tr>
-                              <td>{postSchedule.day}</td>
-                              <td>{postSchedule.hour}</td>
-                              <td>{postSchedule.local}</td>
-                              <td>{postSchedule.description}</td>
-                              <td class="actions">
-                                <a class="btn btn-success btn-xs" href="view.html">Visualizar</a>
-                                <a class="btn btn-warning btn-xs" href="edit.html">Editar</a>
-                                <a class="btn btn-danger btn-xs" href="#" data-toggle="modal" data-target="#delete-modal">Excluir</a>
-                              </td>
-                            </tr>
-              
-                          </tbody>
-                        </table>
-              
-                      </div>
-                    </div>
-                      
-                    ))}
+                                <tr>
+                                  <td>{postSchedule.day}</td>
+                                  <td>{postSchedule.hour}</td>
+                                  <td>{postSchedule.local}</td>
+                                  <td>{postSchedule.description}</td>
+                                  <td class="actions">
+                                    <a class="btn btn-success btn-xs" href="#">Visualizar</a>
+                                    <a class="btn btn-warning btn-xs" href="edit.html">Editar</a>
+                                    <a class="btn btn-danger btn-xs" href="#" data-toggle="modal" data-target="#delete-modal">Excluir</a>
+                                  </td>
+                                </tr>
                   
-                 
+                              </tbody>
+                            </table>
+                  
+                          </div>
+                        </div> 
+                        ))
+                      : (<p>Nada encontrado</p>)
+                    }
                 </div>
               </Paper>
             </Grid>

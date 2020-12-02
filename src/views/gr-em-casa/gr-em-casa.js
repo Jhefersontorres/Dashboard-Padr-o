@@ -22,11 +22,6 @@ import "../../styles/grcasa.css";
 
 
 export default function Grcasa() {
-  //pagination
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(3);
   //form
   const formRef = useRef(null);
   //get/post
@@ -111,16 +106,10 @@ export default function Grcasa() {
 
   useEffect(() => {
     getGrCasa();
-    setLoading(true);
-    setLoading(false);
+  
   }, []);
 
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = GRCasa.slice(indexOfFirstPost, indexOfLastPost);
-
-  // Change page
-  const paginate = pageNumber => setCurrentPage(pageNumber);
+ 
 
   return (
     <React.Fragment>
@@ -191,7 +180,7 @@ export default function Grcasa() {
                             BackdropProps={{ timeout: 1000 }}
                           >
                             Voltar
-                    </button>
+                          </button>
                         </div>
                       </Form>
                     </div>
@@ -199,28 +188,49 @@ export default function Grcasa() {
                 </Modal>
               </div>
 
-              <Paper>
-                <div classname="cards-views">
-                  <GRemCasaContext.Provider value={{ getGrCasa }}>
-                    {currentPosts.map(postgrcasa => (
-                      <CardPostGrcasa datagrcasa={postgrcasa} />
-                    ))}
-                  </GRemCasaContext.Provider>
-                  <div className='container mt-5'>
-                    <Posts posts={currentPosts} loading={loading} />
-                    <Pagination
-                      postsPerPage={postsPerPage}
-                      totalPosts={GRCasa.length}
-                      paginate={paginate}
-                      color="primary"
-                      variant="outlined" shape="rounded"
-                    />
-                  </div>
-                </div>
-              </Paper>
             </Grid>
           </Grid>
         </Grid>
+        <Paper>
+                <div classname="cards-views">
+                    {
+                      GRCasa.length > 0 ?
+                        GRCasa.map(postGrcasa => (
+                          <div id="list" class="row">
+    
+                          <div class="table-responsive col-md-12">
+                            <table class="table table-striped" cellspacing="0" cellpadding="0">
+                              <thead>
+                                <tr>
+                                  <th>Pastor</th>
+                                  <th>Messagem</th>
+                                  <th>Arquivo</th>
+                                  <th class="actions">Ações</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                  
+                                <tr>
+                                  <td>{postGrcasa.idpastor}</td>
+                                  <td>{postGrcasa.message}</td>
+                                  <td>{postGrcasa.document_src}</td>
+                                  <td class="actions">
+                                    <a class="btn btn-success btn-xs" href="#">Visualizar</a>
+                                    <a class="btn btn-warning btn-xs" href="edit.html">Editar</a>
+                                    <a class="btn btn-danger btn-xs" href="#" data-toggle="modal" data-target="#delete-modal">Excluir</a>
+                                  </td>
+                                </tr>
+                  
+                              </tbody>
+                            </table>
+                  
+                          </div>
+                        </div> 
+                        ))
+                      : (<p>Nada encontrado</p>)
+                    }
+                </div>
+              </Paper>
       </div>
     </React.Fragment>
   );
