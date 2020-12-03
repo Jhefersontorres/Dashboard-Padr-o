@@ -113,6 +113,7 @@ export default function Grcasa() {
  
   useEffect(() => {
     getGrCasa();
+<<<<<<< HEAD
     
 
   }, []);
@@ -133,6 +134,11 @@ export default function Grcasa() {
   }
 
 
+=======
+  
+  }, []);
+
+>>>>>>> 9089c84d1dd1525246e228a78859596e9cc36e09
  
 
   return (
@@ -235,32 +241,13 @@ export default function Grcasa() {
                               <tbody>
                   
                                 <tr>
-                                  <td>
-                                  <img 
-                                        src={"http://localhost:3333/uploads/images/pastors/" + postGrcasa.pastor_image}
-                                        alt="pastor_image"
-                                        width="100px"
-                                        height="100px"
-                                        style={{ borderRadius: '50%' }}
-                                      />
-                                  </td>
+                                  <td>{postGrcasa.idpastor}</td>
                                   <td>{postGrcasa.message}</td>
-                                  <td>
-                                  <a class="btn btn-success btn-xs" href="#" 
-                                    onClick={() => getUrlPdf("http://localhost:3333/uploads/images/gr_casa/" + postGrcasa.document_src)} 
-                                    file={"http://localhost:3333/uploads/images/gr_casa/" + postGrcasa.document_src}
-                                    >
-                                      Visualizar
-                                  </a>
-                                  </td>
+                                  <td>{postGrcasa.document_src}</td>
                                   <td class="actions">
-                                    
+                                    <a class="btn btn-success btn-xs" href="#">Visualizar</a>
                                     <a class="btn btn-warning btn-xs" href="edit.html">Editar</a>
-                                    <a class="btn btn-danger btn-xs" href="#" data-toggle="modal" data-target="#delete-modal"
-                                      onClick={() => DeleteGrCasa(postGrcasa.id) } 
-                                      >
-                                        Excluir
-                                    </a>
+                                    <a class="btn btn-danger btn-xs" href="#" data-toggle="modal" data-target="#delete-modal">Excluir</a>
                                   </td>
                                 </tr>
                   
