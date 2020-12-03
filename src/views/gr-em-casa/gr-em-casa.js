@@ -26,7 +26,7 @@ export default function Grcasa() {
   const formRef = useRef(null);
   //get/post
   const [GRCasa, setGrCasa] = useState([])
-
+  const [DeleteGRCasa, setDeleteGrCasa] = useState([])
   //modal
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
@@ -36,6 +36,12 @@ export default function Grcasa() {
   const handleClose = () => {
     setOpen(false);
   };
+
+
+  function getUrlPdf(path) {
+    window.open(path, '_blank');
+  }
+
 
   function handleSubmit(data, { reset }) {
     try {
@@ -97,17 +103,35 @@ export default function Grcasa() {
 
         console.log(response)
 
-        setGrCasa(response.data);
+        setGrCasa(response);
       })
       .catch(err => {
         console.log(err)
       })
   }
 
+ 
   useEffect(() => {
     getGrCasa();
-  
+    
+
   }, []);
+
+  
+  function DeleteGrCasa(id) {
+    fetch('http://localhost:3333/gr-casa/' + id, {
+      method: "DELETE"
+    }).then(response => response.json())
+      .then(response => {
+        getGrCasa();
+        alert(response.message)
+        console.log(response)
+      })
+      .catch(err => {
+        console.log(err.message, 'Ooops ouve um erro de conexão')
+      })
+  }
+
 
  
 
@@ -211,13 +235,32 @@ export default function Grcasa() {
                               <tbody>
                   
                                 <tr>
-                                  <td>{postGrcasa.idpastor}</td>
+                                  <td>
+                                  <img 
+                                        src={"http://localhost:3333/uploads/images/pastors/" + postGrcasa.pastor_image}
+                                        alt="pastor_image"
+                                        width="100px"
+                                        height="100px"
+                                        style={{ borderRadius: '50%' }}
+                                      />
+                                  </td>
                                   <td>{postGrcasa.message}</td>
-                                  <td>{postGrcasa.document_src}</td>
+                                  <td>
+                                  <a class="btn btn-success btn-xs" href="#" 
+                                    onClick={() => getUrlPdf("http://localhost:3333/uploads/images/gr_casa/" + postGrcasa.document_src)} 
+                                    file={"http://localhost:3333/uploads/images/gr_casa/" + postGrcasa.document_src}
+                                    >
+                                      Visualizar
+                                  </a>
+                                  </td>
                                   <td class="actions">
-                                    <a class="btn btn-success btn-xs" href="#">Visualizar</a>
+                                    
                                     <a class="btn btn-warning btn-xs" href="edit.html">Editar</a>
-                                    <a class="btn btn-danger btn-xs" href="#" data-toggle="modal" data-target="#delete-modal">Excluir</a>
+                                    <a class="btn btn-danger btn-xs" href="#" data-toggle="modal" data-target="#delete-modal"
+                                      onClick={() => DeleteGrCasa(postGrcasa.id) } 
+                                      >
+                                        Excluir
+                                    </a>
                                   </td>
                                 </tr>
                   

@@ -21,12 +21,22 @@ export default function Bank() {
 
   //modal
   const [open, setOpen] = React.useState(false);
+  const [openEdit, setOpenEdit] = React.useState(false);
+  
   const handleOpen = () => {
     setOpen(true);
   };
 
+  const handleOpenEdit = () => {
+    setOpenEdit(true);
+  };
+
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleCloseEdit = () => {
+    setOpenEdit(false);
   };
 
   function handleSubmit(data, { reset }) {
@@ -82,14 +92,14 @@ export default function Bank() {
 
 
   function getBank() {
-    fetch('http://localhost:3033/sistemas/', {
+    fetch('http://localhost:3333/bank', {
       method: "GET"
     }).then(response => response.json())
       .then(response => {
 
         console.log(response)
 
-        setBank(response.data);
+        setBank(response);
       })
       .catch(err => {
         console.log(err)
@@ -144,7 +154,7 @@ export default function Bank() {
                     <div className="paper">
 
                       <Form ref={formRef} onSubmit={handleSubmit} className="form " >
-                        <h2 id="spring-modal-title">CADASTRO POTS GR EM CASA</h2>
+                        <h2 id="spring-modal-title"> CONTA BANCÁRIA </h2>
                         <Input
                           name="descricao"
                           id="descricao"
@@ -178,13 +188,110 @@ export default function Bank() {
                   </Fade>
                 </Modal>
               </div>
-
-              <Paper>
+            
                 <div classname="cards-views">
+                    {
+                      Bank.length > 0 ?
+                        Bank.map(postBank => (
+                          <div id="list" class="row">
+    
+                          <div class="table-responsive col-md-12">
+                            <table class="table table-striped" cellspacing="0" cellpadding="0">
+                              <thead>
+                                <tr>
+                                  <th>Banco</th>
+                                  <th>Agência</th>
+                                  <th>Contata</th>
+                                  <th>QRCode</th>
+                                  <th class="actions">Ações</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                  
+                                <tr>
+                                  <td>{postBank.bank}</td>
+                                  <td>{postBank.agency}</td>
+                                  <td>{postBank.account}</td>
+                                  <td>
+                                  <img
+                                       src={"http://localhost:3333/uploads/images/qr_code/" + postBank.qr_code}
+                                       alt="qr_code"
+                                       width="250px"
+                                       height="300px"
+                                    />
+                                  </td>
+                                  <td class="actions">
+                                    <a class="btn btn-warning btn-xs" href="#" onClick={handleOpenEdit}>Editar</a>
+                                  </td>
+                                </tr>
+                  
+                              </tbody>
+                            </table>
+                  
+                          </div>
+                        </div> 
+                        ))
+                      : (<p>Nada encontrado</p>)
+                    }
 
-                  <h1>cards</h1>
+                  <Modal
+                    aria-labelledby="transition-modal-title"
+                    aria-describedby="transition-modal-description"
+                    className="modal"
+                    open={openEdit}
+                    closeAfterTransition
+                    BackdropComponent={Backdrop}
+                    BackdropProps={{ timeout: 900 }}
+                    >
+                      <Fade in={openEdit}>
+                        <div className="paper">
+
+                          <Form ref={formRef} onSubmit={handleSubmit} className="form " >
+                            <h2 id="spring-modal-title"> EDITAR CONTA </h2>
+                            <Input
+                              name="bank"
+                              id="bank"
+                              label="BANCO"
+                              type="text"
+                              required
+                            />
+                            <Input
+                              name="agency"
+                              id="agency"
+                              label="AGÊNCIA"
+                              type="text"
+                              required
+                            />
+                            <Input
+                              name="account"
+                              id="account"
+                              label="CONTA"
+                              type="text"
+                              required
+                            />
+
+                            <div className="acoes">
+                              <button type="submit">
+                                Salvar
+                              </button>
+                              <button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleCloseEdit}
+                                BackdropProps={{ timeout: 1000 }}
+                              >
+                                Voltar
+                              </button>
+                            </div>
+                          </Form>
+
+                        </div>
+                      </Fade>
+
+                  </Modal>
+
                 </div>
-              </Paper>
+                        
             </Grid>
           </Grid>
         </Grid>

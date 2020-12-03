@@ -79,14 +79,14 @@ export default function Pastor() {
 
 
   function getPastor() {
-    fetch('http://localhost:3033/sistemas/', {
+    fetch('http://localhost:3333/pastor', {
       method: "GET"
     }).then(response => response.json())
       .then(response => {
 
         console.log(response)
 
-        setPastor(response.data);
+        setPastor(response);
       })
       .catch(err => {
         console.log(err)
@@ -176,12 +176,55 @@ export default function Pastor() {
                 </Modal>
               </div>
 
+             
               <Paper>
                 <div classname="cards-views">
-
-                  <h1>cards</h1>
+                    {
+                      Pastor.length > 0 ?
+                        Pastor.map(postPastor => (
+                          <div id="list" class="row" key={postPastor.id}>
+                            <div class="table-responsive col-md-12">
+                              <table class="table table-striped" cellspacing="0" cellpadding="0">
+                                <thead>
+                                  <tr>
+                                    <th>Nome</th>
+                                    <th>Imagem / Avatar </th>
+                                    <th class="actions">Ações</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                    
+                                  <tr>
+                                    <td>{postPastor.name}</td>
+                                    <td>
+                                      <img 
+                                        src={"http://localhost:3333/uploads/images/pastors/" + postPastor.pastor_image}
+                                        alt="pastor_image"
+                                        width="100px"
+                                        height="100px"
+                                        style={{ borderRadius: '50%' }}
+                                      />
+                                    </td>
+                                    
+                                    <td class="actions">
+                                      <a class="btn btn-success btn-xs" href="#">Visualizar</a>
+                                      <a class="btn btn-warning btn-xs" href="edit.html">Editar</a>
+                                      <a class="btn btn-danger btn-xs" href="#" data-toggle="modal" data-target="#delete-modal">Excluir</a>
+                                    </td>
+                                  </tr>
+                    
+                                </tbody>
+                              </table>
+                    
+                            </div>
+                          </div> 
+                        ))
+                      : (<p>Nada encontrado</p>)
+                    }
                 </div>
               </Paper>
+
+
             </Grid>
           </Grid>
         </Grid>

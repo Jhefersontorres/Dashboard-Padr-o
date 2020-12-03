@@ -34,54 +34,53 @@ export default function Schedule() {
     setOpen(false);
   };
 
- 
-    async function handleSubmit(data, { reset }) {
-      try {
-        const schema = Yup.object().shape({
-    
-        });
-  
-        await schema.validate(data, { abortEarly: false, });
-  
-        formRef.current.setErrors({});
-  
-        cadSchedule(data);
-  
-        reset(); 
-      }
-      catch (err) {
-        if (err instanceof Yup.ValidationError) {
-          const errorMessages = {};
-  
-          err.inner.forEach(error => {
-            errorMessages[error.path] = error.message;
-          })
-  
-          formRef.current.setErrors(errorMessages);
-        }
+
+  async function handleSubmit(data, { reset }) {
+    try {
+      const schema = Yup.object().shape({
+
+     });
+
+      await schema.validate(data, { abortEarly: false, });
+
+      formRef.current.setErrors({});
+
+      cadSchedule(data);
+
+      reset();
+     }
+    catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const errorMessages = {};
+
+        err.inner.forEach(error => {
+          errorMessages[error.path] = error.message;
+        })
+
+        formRef.current.setErrors(errorMessages);
       }
     }
-    function cadSchedule(dataSchedule) {
-      console.log(dataSchedule);
-      fetch('http://localhost:3333/schedule/', {
-        headers: {
-          "Content-Type": "application/json"
-        },
-        method: "POST",
-        body: JSON.stringify({
-          day: dataSchedule.day,
-          hour: dataSchedule.hour,
-          local: dataSchedule.local,
-          description: dataSchedule.description
-        })
-      }).then(response => response.json())
-        .then(response => {
-          
-          console.log(response);
-        }).catch(error => {
-          console.log(error);
-        })
-    }
+  }
+
+  function cadSchedule(dataSchedule) {
+    fetch('http://localhost:3333/schedule/', {
+      headers: {
+        "Content-Type": "application/json"
+      },
+      method: "POST",
+      body: JSON.stringify({
+        day: dataSchedule.day,
+        hour: dataSchedule.hour,
+        local: dataSchedule.local,
+        description: dataSchedule.description
+      })
+    }).then(response => response.json())
+      .then(response => {
+        console.log(response);
+      }).catch(error => {
+        console.log(error);
+      })
+  }
 
   function getSchedule() {
     fetch('http://localhost:3333/schedule').then(response => response.json())
@@ -95,25 +94,26 @@ export default function Schedule() {
 
   useEffect(() => {
     getSchedule();
-    
   }, []);
 
   return (
     <React.Fragment>
       <div classename="container">
-        <SideBar />
+          <SideBar />
         <div id="top-bar">
           <i class="fa fa-user-circle"></i>
           <p>Jheferson torres</p>
         </div>
-        <Grid container justify="center">
+        <Grid 
+          container justify="center"
+          >
           <Grid
             spacing={4}
             alignItems="center"
             justify="center"
             container
             className="grid"
-          >
+            >
             <Grid item xs={12} md={6}>
               <div className="paper-hearder">
                 <div id="hearder">
@@ -121,10 +121,9 @@ export default function Schedule() {
                   <button
                     classename="novo"
                     onClick={handleOpen}
-                  >
+                   >
                     NOVO
-                    </button>
-
+                  </button>
                 </div>
 
                 <Modal
@@ -135,10 +134,10 @@ export default function Schedule() {
                   closeAfterTransition
                   BackdropComponent={Backdrop}
                   BackdropProps={{ timeout: 900 }}
-                >
+                  >
                   <Fade in={open}>
-                    <div className="paper">
 
+                    <div className="paper">
                       <Form ref={formRef} onSubmit={handleSubmit} className="form " >
                         <h2 id="spring-modal-title">CADASTRO POTS AGENDA</h2>
                         <Input
@@ -155,7 +154,7 @@ export default function Schedule() {
                           type="text"
                           required
                         />
-                         <Input
+                        <Input
                           name="local"
                           id="local"
                           label="LOCAL"
@@ -163,7 +162,7 @@ export default function Schedule() {
                           placeholder="Ex: IPR Central"
                           required
                         />
-                         <Input
+                        <Input
                           name="description"
                           id="description"
                           label="DESCRIÇÃO"
@@ -173,7 +172,9 @@ export default function Schedule() {
                         />
 
                         <div className="acoes">
-                          <button type="submit">
+                          <button 
+                            type="submit"
+                            >
                             Salvar
                           </button>
                           <button
@@ -181,9 +182,9 @@ export default function Schedule() {
                             color="primary"
                             onClick={handleClose}
                             BackdropProps={{ timeout: 1000 }}
-                          >
+                            >
                             Voltar
-                    </button>
+                          </button>
                         </div>
                       </Form>
                     </div>
@@ -191,13 +192,12 @@ export default function Schedule() {
                 </Modal>
               </div>
 
-              <Paper>
                 <div classname="cards-views">
-                    {
-                      schedules.length > 0 ?
-                        schedules.map(postSchedule => (
-                          <div id="list" class="row">
-    
+                  {
+                    schedules.length > 0 ?
+                      schedules.map(postSchedule => (
+                        <div id="list" class="row">
+
                           <div class="table-responsive col-md-12">
                             <table class="table table-striped" cellspacing="0" cellpadding="0">
                               <thead>
@@ -210,7 +210,7 @@ export default function Schedule() {
                                 </tr>
                               </thead>
                               <tbody>
-                  
+
                                 <tr>
                                   <td>{postSchedule.day}</td>
                                   <td>{postSchedule.hour}</td>
@@ -222,17 +222,17 @@ export default function Schedule() {
                                     <a class="btn btn-danger btn-xs" href="#" data-toggle="modal" data-target="#delete-modal">Excluir</a>
                                   </td>
                                 </tr>
-                  
+
                               </tbody>
                             </table>
-                  
                           </div>
-                        </div> 
-                        ))
+
+                        </div>
+                      ))
                       : (<p>Nada encontrado</p>)
-                    }
+                  }
                 </div>
-              </Paper>
+           
             </Grid>
           </Grid>
         </Grid>

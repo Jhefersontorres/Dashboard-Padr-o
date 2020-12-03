@@ -60,7 +60,6 @@ export default function Event() {
 
 
   function cadEvent(dataEvent) {
-    console.log(dataEvent);
     let formDataEvent = new FormData();
     
     formDataEvent.append("description", dataEvent.description)
@@ -72,24 +71,19 @@ export default function Event() {
         body:formDataEvent
     }).then(response => response.json())
       .then(response => {
-        
         console.log(response);
       }).catch(error => {
         console.log(error);
       })
   }
 
-
-//initial function GET - function papa
   function getEvent() {
-    fetch('http://localhost:3033/sistemas/', {
-      method: "GET"
-    }).then(response => response.json())
+    fetch('http://localhost:3333/event')
+      .then(response => response.json())
       .then(response => {
+        console.log('response', response)
 
-        console.log(response)
-
-        setEvent(response.data);
+        setEvent(response);
       })
       .catch(err => {
         console.log(err)
@@ -98,8 +92,6 @@ export default function Event() {
 
   useEffect(() => {
     getEvent();
-    //setLoading(true);
-    //setLoading(false);
   }, []);
 
   return (
@@ -185,8 +177,47 @@ export default function Event() {
 
               <Paper>
                 <div classname="cards-views">
-
-                  <h1>cards</h1>
+                    {
+                      Event.length > 0 ?
+                        Event.map(event => (
+                          <div id="list" class="row" key={event.id}>
+                            <div class="table-responsive col-md-12">
+                              <table class="table table-striped" cellspacing="0" cellpadding="0">
+                                <thead>
+                                  <tr>
+                                    <th>Nome</th>
+                                    <th>Imagem / Avatar </th>
+                                    <th class="actions">Ações</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                    
+                                  <tr>
+                                    <td>{event.description}</td>
+                                    <td>
+                                      <img 
+                                        src={"http://localhost:3333/uploads/images/events/" + event.image}
+                                        alt="pastor_image"
+                                        width="200px"
+                                        height="100px"
+                                      />
+                                    </td>
+                                    
+                                    <td class="actions">
+                                      <a class="btn btn-success btn-xs" href="#">Visualizar</a>
+                                      <a class="btn btn-warning btn-xs" href="edit.html">Editar</a>
+                                      <a class="btn btn-danger btn-xs" href="#" data-toggle="modal" data-target="#delete-modal">Excluir</a>
+                                    </td>
+                                  </tr>
+                    
+                                </tbody>
+                              </table>
+                    
+                            </div>
+                          </div> 
+                        ))
+                      : (<p>Nada encontrado</p>)
+                    }
                 </div>
               </Paper>
             </Grid>
