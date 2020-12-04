@@ -120,6 +120,7 @@ export default function Bank() {
           <i class="fa fa-user-circle"></i>
           <p>Jheferson torres</p>
         </div>
+
         <Grid container justify="center">
           <Grid
             spacing={4}
@@ -189,7 +190,7 @@ export default function Bank() {
                 </Modal>
               </div>
             
-                <div classname="cards-views">
+              <div classname="cards-views">
                     {
                       Bank.length > 0 ?
                         Bank.map(postBank => (
@@ -206,8 +207,7 @@ export default function Bank() {
                                   <th class="actions">Ações</th>
                                 </tr>
                               </thead>
-                              <tbody>
-                  
+                              <tbody>                  
                                 <tr>
                                   <td>{postBank.bank}</td>
                                   <td>{postBank.agency}</td>
@@ -223,11 +223,9 @@ export default function Bank() {
                                   <td class="actions">
                                     <a class="btn btn-warning btn-xs" href="#" onClick={handleOpenEdit}>Editar</a>
                                   </td>
-                                </tr>
-                  
+                                </tr>                  
                               </tbody>
-                            </table>
-                  
+                            </table>                  
                           </div>
                         </div> 
                         ))
@@ -235,63 +233,63 @@ export default function Bank() {
                     }
 
                   <Modal
-                    aria-labelledby="transition-modal-title"
-                    aria-describedby="transition-modal-description"
-                    className="modal"
-                    open={openEdit}
-                    closeAfterTransition
-                    BackdropComponent={Backdrop}
-                    BackdropProps={{ timeout: 900 }}
-                    >
-                      <Fade in={openEdit}>
-                        <div className="paper">
-
-                          <Form ref={formRef} onSubmit={handleSubmit} className="form " >
-                            <h2 id="spring-modal-title"> EDITAR CONTA </h2>
-                            <Input
-                              name="bank"
-                              id="bank"
-                              label="BANCO"
-                              type="text"
-                              required
-                            />
-                            <Input
-                              name="agency"
-                              id="agency"
-                              label="AGÊNCIA"
-                              type="text"
-                              required
-                            />
-                            <Input
-                              name="account"
-                              id="account"
-                              label="CONTA"
-                              type="text"
-                              required
-                            />
-
-                            <div className="acoes">
-                              <button type="submit">
-                                Salvar
-                              </button>
-                              <button
-                                variant="contained"
-                                color="primary"
-                                onClick={handleCloseEdit}
-                                BackdropProps={{ timeout: 1000 }}
-                              >
-                                Voltar
-                              </button>
-                            </div>
-                          </Form>
-
-                        </div>
-                      </Fade>
-
-                  </Modal>
-
-                </div>
-                        
+                      aria-labelledby="transition-modal-title"
+                      aria-describedby="transition-modal-description"
+                      className="modal"
+                      open={openEdit}
+                      closeAfterTransition
+                      BackdropComponent={Backdrop}
+                      BackdropProps={{ timeout: 900 }}
+                      >
+                        <Fade in={openEdit}>
+                          <div className="paper">
+                            <Form ref={formRef} onSubmit={handleSubmit} className="form " >
+                              <h2
+                                id="spring-modal-title"
+                                >
+                                  EDITAR CONTA
+                              </h2>
+                                <Input
+                                  name="bank"
+                                  id="bank"
+                                  label="BANCO"
+                                  type="text"
+                                  required
+                                />
+                                <Input
+                                  name="agency"
+                                  id="agency"
+                                  label="AGÊNCIA"
+                                  type="text"
+                                  required
+                                />
+                                <Input
+                                  name="account"
+                                  id="account"
+                                  label="CONTA"
+                                  type="text"
+                                  required
+                                />
+                              <div className="acoes">
+                                <button 
+                                  type="submit"
+                                  >
+                                  Salvar
+                                </button>
+                                <button
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={handleCloseEdit}
+                                  BackdropProps={{ timeout: 1000 }}
+                                  >
+                                  Voltar
+                                </button>
+                              </div>
+                            </Form>
+                          </div>
+                        </Fade>
+                   </Modal>
+              </div>                        
             </Grid>
           </Grid>
         </Grid>

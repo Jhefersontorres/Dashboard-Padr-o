@@ -113,12 +113,10 @@ export default function Grcasa() {
  
   useEffect(() => {
     getGrCasa();
-<<<<<<< HEAD
-    
-
   }, []);
 
   
+
   function DeleteGrCasa(id) {
     fetch('http://localhost:3333/gr-casa/' + id, {
       method: "DELETE"
@@ -132,14 +130,8 @@ export default function Grcasa() {
         console.log(err.message, 'Ooops ouve um erro de conexão')
       })
   }
-
-
-=======
   
-  }, []);
-
->>>>>>> 9089c84d1dd1525246e228a78859596e9cc36e09
- 
+  
 
   return (
     <React.Fragment>
@@ -241,13 +233,26 @@ export default function Grcasa() {
                               <tbody>
                   
                                 <tr>
-                                  <td>{postGrcasa.idpastor}</td>
+                                  <td>
+                                  <img 
+                                        src={"http://localhost:3333/uploads/images/pastors/" + postGrcasa.pastor_image}
+                                        alt="pastor_image"
+                                        width="100px"
+                                        height="100px"
+                                        style={{ borderRadius: '50%' }}
+                                      />
+                                      {postGrcasa.name}
+                                  </td>
                                   <td>{postGrcasa.message}</td>
-                                  <td>{postGrcasa.document_src}</td>
-                                  <td class="actions">
-                                    <a class="btn btn-success btn-xs" href="#">Visualizar</a>
+                                  <td>
+                                  <a class="btn btn-success btn-xs" href="#"
+                                  onClick={() => getUrlPdf("http://localhost:3333/uploads/images/gr_casa/" + postGrcasa.document_src)}
+                                  file={"http://localhost:3333/uploads/images/gr_casa/" + postGrcasa.document_src}>Visualizar</a>                                 
+                                  </td>
+                                  <td class="actions">                                    
                                     <a class="btn btn-warning btn-xs" href="edit.html">Editar</a>
-                                    <a class="btn btn-danger btn-xs" href="#" data-toggle="modal" data-target="#delete-modal">Excluir</a>
+                                    <a class="btn btn-danger btn-xs" href="#" data-toggle="modal" data-target="#delete-modal"
+                                    onClick={() => DeleteGrCasa(postGrcasa.id)} >Excluir</a>
                                   </td>
                                 </tr>
                   
@@ -264,4 +269,4 @@ export default function Grcasa() {
       </div>
     </React.Fragment>
   );
-}
+}          

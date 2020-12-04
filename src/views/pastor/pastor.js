@@ -99,6 +99,21 @@ export default function Pastor() {
     //setLoading(false);
   }, []);
 
+  function DeletePastor(id) {
+    fetch('http://localhost:3333/pastor/' + id, {
+      method: "DELETE"
+    }).then(response => response.json())
+      .then(response => {
+        getPastor();
+        alert(response.message)
+        console.log(response)
+      })
+      .catch(err => {
+        console.log(err.message, 'Ooops ouve um erro de conexão')
+      })
+  }
+  
+
   return (
     <React.Fragment>
       <div classename="container">
@@ -207,9 +222,11 @@ export default function Pastor() {
                                     </td>
                                     
                                     <td class="actions">
-                                      <a class="btn btn-success btn-xs" href="#">Visualizar</a>
+                          
                                       <a class="btn btn-warning btn-xs" href="edit.html">Editar</a>
-                                      <a class="btn btn-danger btn-xs" href="#" data-toggle="modal" data-target="#delete-modal">Excluir</a>
+                                      <a class="btn btn-danger btn-xs" href="#" data-toggle="modal" data-target="#delete-modal"
+                                      onClick={() => DeletePastor(postPastor.id)}
+                                      >Excluir</a>
                                     </td>
                                   </tr>
                     

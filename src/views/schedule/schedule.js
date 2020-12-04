@@ -62,7 +62,6 @@ export default function Schedule() {
     }
   }
 
-<<<<<<< HEAD
   function cadSchedule(dataSchedule) {
     fetch('http://localhost:3333/schedule/', {
       headers: {
@@ -86,11 +85,7 @@ export default function Schedule() {
   function getSchedule() {
     fetch('http://localhost:3333/schedule').then(response => response.json())
       .then(response => {
-=======
-  function getSchedule() {
-    fetch('http://localhost:3333/schedule').then(response => response.json())
-      .then(response => {
->>>>>>> 9089c84d1dd1525246e228a78859596e9cc36e09
+
         setSchedule(response)
       })
       .catch(err => {
@@ -101,6 +96,22 @@ export default function Schedule() {
   useEffect(() => {
     getSchedule();
   }, []);
+
+
+  function DeleteSchedule(id) {
+    fetch('http://localhost:3333/schedule/' + id, {
+      method: "DELETE"
+    }).then(response => response.json())
+      .then(response => {
+        getSchedule();
+        alert(response.message)
+        console.log(response)
+      })
+      .catch(err => {
+        console.log(err.message, 'Ooops ouve um erro de conexão')
+      })
+  }
+  
 
   return (
     <React.Fragment>
@@ -199,19 +210,10 @@ export default function Schedule() {
               </div>
 
                 <div classname="cards-views">
-<<<<<<< HEAD
-                  {
-                    schedules.length > 0 ?
-                      schedules.map(postSchedule => (
-                        <div id="list" class="row">
-
-=======
                     {
                       schedules.length > 0 ?
                         schedules.map(postSchedule => (
                           <div id="list" class="row">
-    
->>>>>>> 9089c84d1dd1525246e228a78859596e9cc36e09
                           <div class="table-responsive col-md-12">
                             <table class="table table-striped" cellspacing="0" cellpadding="0">
                               <thead>
@@ -224,11 +226,6 @@ export default function Schedule() {
                                 </tr>
                               </thead>
                               <tbody>
-<<<<<<< HEAD
-
-=======
-                  
->>>>>>> 9089c84d1dd1525246e228a78859596e9cc36e09
                                 <tr>
                                   <td>{postSchedule.day}</td>
                                   <td>{postSchedule.hour}</td>
@@ -237,11 +234,10 @@ export default function Schedule() {
                                   <td class="actions">
                                     <a class="btn btn-success btn-xs" href="#">Visualizar</a>
                                     <a class="btn btn-warning btn-xs" href="edit.html">Editar</a>
-                                    <a class="btn btn-danger btn-xs" href="#" data-toggle="modal" data-target="#delete-modal">Excluir</a>
+                                    <a class="btn btn-danger btn-xs" href="#" data-toggle="modal" data-target="#delete-modal"
+                                    onClick={() => DeleteSchedule(postSchedule.id)}>Excluir</a>
                                   </td>
                                 </tr>
-<<<<<<< HEAD
-
                               </tbody>
                             </table>
                           </div>
@@ -250,19 +246,7 @@ export default function Schedule() {
                       ))
                       : (<p>Nada encontrado</p>)
                   }
-=======
-                  
-                              </tbody>
-                            </table>
-                  
-                          </div>
-                        </div> 
-                        ))
-                      : (<p>Nada encontrado</p>)
-                    }
->>>>>>> 9089c84d1dd1525246e228a78859596e9cc36e09
-                </div>
-           
+                </div>      
             </Grid>
           </Grid>
         </Grid>

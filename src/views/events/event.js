@@ -94,6 +94,23 @@ export default function Event() {
     getEvent();
   }, []);
 
+
+
+  function DeleteEvent(id) {
+    fetch('http://localhost:3333/event/' + id, {
+      method: "DELETE"
+    }).then(response => response.json())
+      .then(response => {
+        getEvent();
+        alert(response.message)
+        console.log(response)
+      })
+      .catch(err => {
+        console.log(err.message, 'Ooops ouve um erro de conexão')
+      })
+  }
+  
+
   return (
     <React.Fragment>
       <div classename="container">
@@ -185,8 +202,9 @@ export default function Event() {
                               <table class="table table-striped" cellspacing="0" cellpadding="0">
                                 <thead>
                                   <tr>
-                                    <th>Nome</th>
+                                    <th>Descrição</th>
                                     <th>Imagem / Avatar </th>
+                                    <th>Link / FormInscrição </th>
                                     <th class="actions">Ações</th>
                                   </tr>
                                 </thead>
@@ -202,11 +220,12 @@ export default function Event() {
                                         height="100px"
                                       />
                                     </td>
-                                    
+                                    <td>{event.link}</td>
                                     <td class="actions">
                                       <a class="btn btn-success btn-xs" href="#">Visualizar</a>
                                       <a class="btn btn-warning btn-xs" href="edit.html">Editar</a>
-                                      <a class="btn btn-danger btn-xs" href="#" data-toggle="modal" data-target="#delete-modal">Excluir</a>
+                                      <a class="btn btn-danger btn-xs" href="#" data-toggle="modal" data-target="#delete-modal"
+                                      onClick={() => DeleteEvent(event.id)}>Excluir</a>
                                     </td>
                                   </tr>
                     
