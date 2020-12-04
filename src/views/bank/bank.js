@@ -108,8 +108,7 @@ export default function Bank() {
 
   useEffect(() => {
     getBank();
-    //setLoading(true);
-    //setLoading(false);
+  
   }, []);
 
   return (
@@ -138,8 +137,7 @@ export default function Bank() {
                     onClick={handleOpen}
                   >
                     NOVO
-                    </button>
-
+                  </button>
                 </div>
 
                 <Modal
@@ -155,42 +153,47 @@ export default function Bank() {
                     <div className="paper">
 
                       <Form ref={formRef} onSubmit={handleSubmit} className="form " >
-                        <h2 id="spring-modal-title"> CONTA BANCÁRIA </h2>
-                        <Input
-                          name="descricao"
-                          id="descricao"
-                          label="DESCRIÇÃO"
-                          type="text"
-                          required
-                        />
-                        <Input
-                          name="especificacao"
-                          id="especificacao"
-                          label="ESPECIFICAÇÃO"
-                          type="text"
-                          required
-                        />
+                          <h2 id="spring-modal-title"> CONTA BANCÁRIA </h2>
+                          <Input
+                            name="descricao"
+                            id="descricao"
+                            label="DESCRIÇÃO"
+                            type="text"
+                            required
+                          />
+                          <Input
+                            name="especificacao"
+                            id="especificacao"
+                            label="ESPECIFICAÇÃO"
+                            type="text"
+                            required
+                          />
 
-                        <div className="acoes">
-                          <button type="submit">
-                            Salvar
-                          </button>
-                          <button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleClose}
-                            BackdropProps={{ timeout: 1000 }}
-                          >
-                            Voltar
-                    </button>
-                        </div>
+                          <div className="acoes">
+                              <button type="submit">
+                                Salvar
+                              </button>
+                              <button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleClose}
+                                BackdropProps={{ timeout: 1000 }}
+                              >
+                                Voltar
+                              </button>
+                          </div>
                       </Form>
+
                     </div>
                   </Fade>
                 </Modal>
               </div>
-            
-              <div classname="cards-views">
+                                
+            </Grid>
+          </Grid>
+        </Grid>
+        
+        <div classname="cards-views-bank">
                     {
                       Bank.length > 0 ?
                         Bank.map(postBank => (
@@ -213,11 +216,11 @@ export default function Bank() {
                                   <td>{postBank.agency}</td>
                                   <td>{postBank.account}</td>
                                   <td>
-                                  <img
-                                       src={"http://localhost:3333/uploads/images/qr_code/" + postBank.qr_code}
-                                       alt="qr_code"
-                                       width="250px"
-                                       height="300px"
+                                    <img
+                                      src={"http://localhost:3333/uploads/images/qr_code/" + postBank.qr_code}
+                                      alt="qr_code"
+                                      width="250px"
+                                      height="300px"
                                     />
                                   </td>
                                   <td class="actions">
@@ -232,6 +235,8 @@ export default function Bank() {
                       : (<p>Nada encontrado</p>)
                     }
 
+
+                  {/* MODAL EDITAR BANK */}
                   <Modal
                       aria-labelledby="transition-modal-title"
                       aria-describedby="transition-modal-description"
@@ -288,11 +293,8 @@ export default function Bank() {
                             </Form>
                           </div>
                         </Fade>
-                   </Modal>
-              </div>                        
-            </Grid>
-          </Grid>
-        </Grid>
+                   </Modal>  
+        </div>    
       </div>
     </React.Fragment>
   );

@@ -110,6 +110,9 @@ export default function Event() {
       })
   }
   
+  function getUrl(path) {
+    window.open(path, '_blank');
+  }
 
   return (
     <React.Fragment>
@@ -191,9 +194,10 @@ export default function Event() {
                   </Fade>
                 </Modal>
               </div>
-
-              <Paper>
-                <div classname="cards-views">
+            </Grid>
+          </Grid>
+        </Grid>
+        <div classname="cards-views">
                     {
                       Event.length > 0 ?
                         Event.map(event => (
@@ -220,9 +224,10 @@ export default function Event() {
                                         height="100px"
                                       />
                                     </td>
-                                    <td>{event.link}</td>
+                                    <td>
+                                       <a class="btn btn-success btn-xs" href="#" onClick={() => getUrl(event.link)}>Visualizar</a>
+                                    </td>
                                     <td class="actions">
-                                      <a class="btn btn-success btn-xs" href="#">Visualizar</a>
                                       <a class="btn btn-warning btn-xs" href="edit.html">Editar</a>
                                       <a class="btn btn-danger btn-xs" href="#" data-toggle="modal" data-target="#delete-modal"
                                       onClick={() => DeleteEvent(event.id)}>Excluir</a>
@@ -238,10 +243,6 @@ export default function Event() {
                       : (<p>Nada encontrado</p>)
                     }
                 </div>
-              </Paper>
-            </Grid>
-          </Grid>
-        </Grid>
       </div>
     </React.Fragment>
   );
