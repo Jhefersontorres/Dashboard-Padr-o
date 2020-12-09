@@ -84,9 +84,6 @@ export default function AliancaUsers() {
         })
     }
 
-
-
-
   function getAliancaUsers() {
     fetch('', {
       method: "GET"
@@ -124,19 +121,20 @@ export default function AliancaUsers() {
             container
             className="grid"
           >
-            <Grid item xs={12} md={6}>
+            <Grid 
+              item xs={12}
+              md={6}
+            >
               <div className="paper-hearder">
                 <div id="hearder">
-                  <span>USUARIOS DO SISTEMA </span>
+                  <span> USUARIOS DO SISTEMA </span>
                   <button
                     classename="novo"
                     onClick={handleOpen}
                   >
                     NOVO
-                    </button>
-
+                  </button>
                 </div>
-
                 <Modal
                   aria-labelledby="transition-modal-title"
                   aria-describedby="transition-modal-description"
@@ -145,12 +143,17 @@ export default function AliancaUsers() {
                   closeAfterTransition
                   BackdropComponent={Backdrop}
                   BackdropProps={{ timeout: 900 }}
-                >
+                  >
                   <Fade in={open}>
                     <div className="paper">
-
-                      <Form ref={formRef} onSubmit={handleSubmit} className="form " >
-                        <h2 id="spring-modal-title">CADASTRO DE USUARIOS</h2>
+                      <Form 
+                        ref={formRef} 
+                        onSubmit={handleSubmit} 
+                        className="form " 
+                        >
+                        <h2 id="spring-modal-title">
+                          CADASTRO DE USUARIOS
+                        </h2>
                         <Input
                           name="username"
                           id="username"
@@ -179,9 +182,10 @@ export default function AliancaUsers() {
                           type="text"
                           required
                         />
-
                         <div className="acoes">
-                          <button type="submit">
+                          <button 
+                            type="submit"
+                          >
                             Salvar
                           </button>
                           <button
@@ -191,23 +195,19 @@ export default function AliancaUsers() {
                             BackdropProps={{ timeout: 1000 }}
                           >
                             Voltar
-                    </button>
+                          </button>
                         </div>
                       </Form>
                     </div>
                   </Fade>
                 </Modal>
               </div>
-
-              <Paper>
-                <div classname="cards-views">
-
-                  <h1>cards</h1>
-                </div>
-              </Paper>
             </Grid>
           </Grid>
         </Grid>
+        <div classname="cards-views">
+          <h1>cards</h1>
+        </div>
       </div>
     </React.Fragment>
   );

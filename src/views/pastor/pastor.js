@@ -7,9 +7,9 @@ import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 
 import { Form } from "@unform/web";
-import * as Yup from 'yup';
-import Input from '../../components/unform/Input/input';
-import InputFile from '../../components/unform/InputFile/fileinput';
+import * as Yup from "yup";
+import Input from "../../components/unform/Input/input";
+import InputFile from "../../components/unform/InputFile/fileinput";
 
 import SideBar from "../../components/sidebar/sidebar";
 import "../../styles/pastor.css";
@@ -18,7 +18,7 @@ export default function Pastor() {
   //form
   const formRef = useRef(null);
   //get/post
-  const [Pastor, setPastor] = useState([])
+  const [Pastor, setPastor] = useState([]);
 
   //modal
   const [open, setOpen] = React.useState(false);
@@ -32,65 +32,61 @@ export default function Pastor() {
 
   async function handleSubmit(data, { reset }) {
     try {
-      const schema = Yup.object().shape({
-  
-      });
+      const schema = Yup.object().shape({});
 
-      await schema.validate(data, { abortEarly: false, });
+      await schema.validate(data, { abortEarly: false });
 
       formRef.current.setErrors({});
 
       cadPastores(data);
 
-      reset(); 
-    }
-    catch (err) {
+      reset();
+    } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errorMessages = {};
 
-        err.inner.forEach(error => {
+        err.inner.forEach((error) => {
           errorMessages[error.path] = error.message;
-        })
+        });
 
         formRef.current.setErrors(errorMessages);
       }
     }
   }
 
-
   function cadPastores(dataPastor) {
     console.log(dataPastor);
     let formData = new FormData();
-    
-    formData.append("name", dataPastor.name)
-    formData.append("pastor_image", dataPastor.pastor_image)
 
-    fetch('http://localhost:3333/pastor', {
+    formData.append("name", dataPastor.name);
+    formData.append("pastor_image", dataPastor.pastor_image);
+
+    fetch("http://localhost:3333/pastor", {
       method: "post",
-      body: formData
-    }).then(response => response.json())
-      .then(response => {
-        
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((response) => {
         console.log(response);
-      }).catch(error => {
-        console.log(error);
       })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
-
   function getPastor() {
-    fetch('http://localhost:3333/pastor', {
-      method: "GET"
-    }).then(response => response.json())
-      .then(response => {
-
-        console.log(response)
+    fetch("http://localhost:3333/pastor", {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
 
         setPastor(response);
       })
-      .catch(err => {
-        console.log(err)
-      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   useEffect(() => {
@@ -100,19 +96,19 @@ export default function Pastor() {
   }, []);
 
   function DeletePastor(id) {
-    fetch('http://localhost:3333/pastor/' + id, {
-      method: "DELETE"
-    }).then(response => response.json())
-      .then(response => {
+    fetch("http://localhost:3333/pastor/" + id, {
+      method: "DELETE",
+    })
+      .then((response) => response.json())
+      .then((response) => {
         getPastor();
-        alert(response.message)
-        console.log(response)
+        alert(response.message);
+        console.log(response);
       })
-      .catch(err => {
-        console.log(err.message, 'Ooops ouve um erro de conexão')
-      })
+      .catch((err) => {
+        console.log(err.message, "Ooops ouve um erro de conexão");
+      });
   }
-  
 
   return (
     <React.Fragment>
@@ -134,15 +130,13 @@ export default function Pastor() {
               <div className="paper-hearder">
                 <div id="hearder">
                   <span> PASTORES </span>
-                  <button
-                    classename="novo"
+                  <button 
+                    classename="novo" 
                     onClick={handleOpen}
                   >
                     NOVO
-                    </button>
-
+                  </button>
                 </div>
-
                 <Modal
                   aria-labelledby="transition-modal-title"
                   aria-describedby="transition-modal-description"
@@ -154,8 +148,11 @@ export default function Pastor() {
                 >
                   <Fade in={open}>
                     <div className="paper">
-
-                      <Form ref={formRef} onSubmit={handleSubmit} className="form " >
+                      <Form
+                        ref={formRef}
+                        onSubmit={handleSubmit}
+                        className="form "
+                      >
                         <h2 id="spring-modal-title">CADASTRO DE PASTORES</h2>
                         <Input
                           name="name"
@@ -171,11 +168,8 @@ export default function Pastor() {
                           type="file"
                           required
                         />
-
                         <div className="acoes">
-                          <button type="submit">
-                            Salvar
-                          </button>
+                          <button type="submit">Salvar</button>
                           <button
                             variant="contained"
                             color="primary"
@@ -183,68 +177,79 @@ export default function Pastor() {
                             BackdropProps={{ timeout: 1000 }}
                           >
                             Voltar
-                    </button>
+                          </button>
                         </div>
                       </Form>
                     </div>
                   </Fade>
                 </Modal>
               </div>
-
-             
-              <Paper>
-                <div classname="cards-views">
-                    {
-                      Pastor.length > 0 ?
-                        Pastor.map(postPastor => (
-                          <div id="list" class="row" key={postPastor.id}>
-                            <div class="table-responsive col-md-12">
-                              <table class="table table-striped" cellspacing="0" cellpadding="0">
-                                <thead>
-                                  <tr>
-                                    <th>Nome</th>
-                                    <th>Imagem / Avatar </th>
-                                    <th class="actions">Ações</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                    
-                                  <tr>
-                                    <td>{postPastor.name}</td>
-                                    <td>
-                                      <img 
-                                        src={"http://localhost:3333/uploads/images/pastors/" + postPastor.pastor_image}
-                                        alt="pastor_image"
-                                        width="100px"
-                                        height="100px"
-                                        style={{ borderRadius: '50%' }}
-                                      />
-                                    </td>
-                                    
-                                    <td class="actions">
-                          
-                                      <a class="btn btn-warning btn-xs" href="edit.html">Editar</a>
-                                      <a class="btn btn-danger btn-xs" href="#" data-toggle="modal" data-target="#delete-modal"
-                                      onClick={() => DeletePastor(postPastor.id)}
-                                      >Excluir</a>
-                                    </td>
-                                  </tr>
-                    
-                                </tbody>
-                              </table>
-                    
-                            </div>
-                          </div> 
-                        ))
-                      : (<p>Nada encontrado</p>)
-                    }
-                </div>
-              </Paper>
-
-
             </Grid>
           </Grid>
         </Grid>
+        <div classname="cards-views">
+          {Pastor.length > 0 ? (
+            Pastor.map((postPastor) => (
+              <div 
+                id="list" 
+                class="row" 
+                key={postPastor.id}
+              >
+                <div class="table-responsive col-md-12">
+                  <table
+                    class="table table-striped"
+                    cellspacing="0"
+                    cellpadding="0"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Nome</th>
+                        <th>Imagem / Avatar </th>
+                        <th class="actions">Ações</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>{postPastor.name}</td>
+                        <td>
+                          <img
+                            src={
+                              "http://localhost:3333/uploads/images/pastors/" +
+                              postPastor.pastor_image
+                            }
+                            alt="pastor_image"
+                            width="100px"
+                            height="100px"
+                            style={{ borderRadius: "50%" }}
+                          />
+                        </td>
+                        <td class="actions">
+                          <a 
+                            class="btn btn-warning btn-xs" 
+                            href="edit.html"
+                          >
+                            Editar
+                          </a>
+                          <a
+                            class="btn btn-danger btn-xs"
+                            href="#"
+                            data-toggle="modal"
+                            data-target="#delete-modal"
+                            onClick={() => DeletePastor(postPastor.id)}
+                          >
+                            Excluir
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p>Nada encontrado</p>
+          )}
+        </div>
       </div>
     </React.Fragment>
   );

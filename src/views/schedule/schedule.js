@@ -7,12 +7,12 @@ import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 
 import { Form } from "@unform/web";
-import * as Yup from 'yup';
-import Input from '../../components/unform/Input/input';
+import * as Yup from "yup";
+import Input from "../../components/unform/Input/input";
 
 import SideBar from "../../components/sidebar/sidebar";
 import "../../styles/schedule.css";
-import CardSchedule from '../../components/cards/Card-Schedule'
+import CardSchedule from "../../components/cards/Card-Schedule";
 
 import ScheduleContext from "../../components/Contexts/ScheduleContext";
 import Pagination from "../../components/pagination/Pagination";
@@ -22,7 +22,7 @@ export default function Schedule() {
   //form
   const formRef = useRef(null);
   //get/post
-  const [schedules, setSchedule] = useState([])
+  const [schedules, setSchedule] = useState([]);
 
   //modal
   const [open, setOpen] = React.useState(false);
@@ -34,28 +34,24 @@ export default function Schedule() {
     setOpen(false);
   };
 
-
   async function handleSubmit(data, { reset }) {
     try {
-      const schema = Yup.object().shape({
+      const schema = Yup.object().shape({});
 
-     });
-
-      await schema.validate(data, { abortEarly: false, });
+      await schema.validate(data, { abortEarly: false });
 
       formRef.current.setErrors({});
 
       cadSchedule(data);
 
       reset();
-     }
-    catch (err) {
+    } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errorMessages = {};
 
-        err.inner.forEach(error => {
+        err.inner.forEach((error) => {
           errorMessages[error.path] = error.message;
-        })
+        });
 
         formRef.current.setErrors(errorMessages);
       }
@@ -63,86 +59,84 @@ export default function Schedule() {
   }
 
   function cadSchedule(dataSchedule) {
-    fetch('http://localhost:3333/schedule/', {
+    fetch("http://localhost:3333/schedule/", {
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       method: "POST",
       body: JSON.stringify({
         day: dataSchedule.day,
         hour: dataSchedule.hour,
         local: dataSchedule.local,
-        description: dataSchedule.description
-      })
-    }).then(response => response.json())
-      .then(response => {
+        description: dataSchedule.description,
+      }),
+    })
+      .then((response) => response.json())
+      .then((response) => {
         console.log(response);
-      }).catch(error => {
-        console.log(error);
       })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   function getSchedule() {
-    fetch('http://localhost:3333/schedule').then(response => response.json())
-      .then(response => {
-
-        setSchedule(response)
+    fetch("http://localhost:3333/schedule")
+      .then((response) => response.json())
+      .then((response) => {
+        setSchedule(response);
       })
-      .catch(err => {
-        console.log(err)
-      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   useEffect(() => {
     getSchedule();
   }, []);
 
-
   function DeleteSchedule(id) {
-    fetch('http://localhost:3333/schedule/' + id, {
-      method: "DELETE"
-    }).then(response => response.json())
-      .then(response => {
+    fetch("http://localhost:3333/schedule/" + id, {
+      method: "DELETE",
+    })
+      .then((response) => response.json())
+      .then((response) => {
         getSchedule();
-        alert(response.message)
-        console.log(response)
+        alert(response.message);
+        console.log(response);
       })
-      .catch(err => {
-        console.log(err.message, 'Ooops ouve um erro de conexão')
-      })
+      .catch((err) => {
+        console.log(err.message, "Ooops ouve um erro de conexão");
+      });
   }
-  
 
   return (
     <React.Fragment>
       <div classename="container">
-          <SideBar />
+        <SideBar />
         <div id="top-bar">
           <i class="fa fa-user-circle"></i>
           <p>Jheferson torres</p>
         </div>
-        <Grid 
-          container justify="center"
-          >
+        <Grid container justify="center">
           <Grid
             spacing={4}
             alignItems="center"
             justify="center"
             container
             className="grid"
+          >
+            <Grid 
+              item xs={12} 
+              md={6}
             >
-            <Grid item xs={12} md={6}>
               <div className="paper-hearder">
                 <div id="hearder">
                   <span>AGENDA SEMANAL </span>
-                  <button
-                    classename="novo"
-                    onClick={handleOpen}
-                   >
+                  <button classename="novo" onClick={handleOpen}>
                     NOVO
                   </button>
                 </div>
-
                 <Modal
                   aria-labelledby="transition-modal-title"
                   aria-describedby="transition-modal-description"
@@ -151,12 +145,15 @@ export default function Schedule() {
                   closeAfterTransition
                   BackdropComponent={Backdrop}
                   BackdropProps={{ timeout: 900 }}
-                  >
+                >
                   <Fade in={open}>
-
                     <div className="paper">
-                      <Form ref={formRef} onSubmit={handleSubmit} className="form " >
-                        <h2 id="spring-modal-title">CADASTRO POTS AGENDA</h2>
+                      <Form
+                        ref={formRef}
+                        onSubmit={handleSubmit}
+                        className="form "
+                      >
+                        <h2 id="spring-modal-title"> CADASTRO POTS AGENDA </h2>
                         <Input
                           name="day"
                           id="day"
@@ -187,19 +184,14 @@ export default function Schedule() {
                           placeholder="Ex: CULTO ALIANÇA"
                           required
                         />
-
                         <div className="acoes">
-                          <button 
-                            type="submit"
-                            >
-                            Salvar
-                          </button>
+                          <button type="submit">Salvar</button>
                           <button
                             variant="contained"
                             color="primary"
                             onClick={handleClose}
                             BackdropProps={{ timeout: 1000 }}
-                            >
+                          >
                             Voltar
                           </button>
                         </div>
@@ -208,48 +200,70 @@ export default function Schedule() {
                   </Fade>
                 </Modal>
               </div>
-
-                <div classname="cards-views">
-                    {
-                      schedules.length > 0 ?
-                        schedules.map(postSchedule => (
-                          <div id="list" class="row">
-                          <div class="table-responsive col-md-12">
-                            <table class="table table-striped" cellspacing="0" cellpadding="0">
-                              <thead>
-                                <tr>
-                                  <th>Data</th>
-                                  <th>horario</th>
-                                  <th>local</th>
-                                  <th>descricao</th>
-                                  <th class="actions">Ações</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td>{postSchedule.day}</td>
-                                  <td>{postSchedule.hour}</td>
-                                  <td>{postSchedule.local}</td>
-                                  <td>{postSchedule.description}</td>
-                                  <td class="actions">
-                                    <a class="btn btn-success btn-xs" href="#">Visualizar</a>
-                                    <a class="btn btn-warning btn-xs" href="edit.html">Editar</a>
-                                    <a class="btn btn-danger btn-xs" href="#" data-toggle="modal" data-target="#delete-modal"
-                                    onClick={() => DeleteSchedule(postSchedule.id)}>Excluir</a>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-
-                        </div>
-                      ))
-                      : (<p>Nada encontrado</p>)
-                  }
-                </div>      
             </Grid>
           </Grid>
         </Grid>
+        <div classname="cards-views">
+          {schedules.length > 0 ? (
+            schedules.map((postSchedule) => (
+              <div 
+                id="list" 
+                class="row"
+              >
+                <div class="table-responsive col-md-12">
+                  <table
+                    class="table table-striped"
+                    cellspacing="0"
+                    cellpadding="0"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Data</th>
+                        <th>horario</th>
+                        <th>local</th>
+                        <th>descricao</th>
+                        <th class="actions">Ações</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>{postSchedule.day}</td>
+                        <td>{postSchedule.hour}</td>
+                        <td>{postSchedule.local}</td>
+                        <td>{postSchedule.description}</td>
+                        <td class="actions">
+                          <a 
+                            class="btn btn-success btn-xs" 
+                            href="#"
+                          >
+                            Visualizar
+                          </a>
+                          <a 
+                            class="btn btn-warning btn-xs"
+                            href="edit.html"
+                          >
+                            Editar
+                          </a>
+                          <a
+                            class="btn btn-danger btn-xs"
+                            href="#"
+                            data-toggle="modal"
+                            data-target="#delete-modal"
+                            onClick={() => DeleteSchedule(postSchedule.id)}
+                          >
+                            Excluir
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p>Nada encontrado</p>
+          )}
+        </div>
       </div>
     </React.Fragment>
   );
