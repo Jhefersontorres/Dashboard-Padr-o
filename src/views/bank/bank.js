@@ -123,17 +123,11 @@ export default function Bank() {
             container
             className="grid"
           >
-            <Grid 
-              item xs={12} 
-              md={6}
-            >
+            <Grid item xs={12} md={6}>
               <div className="paper-hearder">
                 <div id="hearder">
                   <span> GR EM CASA </span>
-                  <button 
-                    classename="novo" 
-                    onClick={handleOpen}
-                  >
+                  <button classename="novo" onClick={handleOpen}>
                     NOVO
                   </button>
                 </div>
@@ -170,11 +164,7 @@ export default function Bank() {
                         />
 
                         <div className="acoes">
-                          <button 
-                            type="submit"
-                          >
-                            Salvar
-                          </button>
+                          <button type="submit">Salvar</button>
                           <button
                             variant="contained"
                             color="primary"
@@ -192,32 +182,27 @@ export default function Bank() {
             </Grid>
           </Grid>
         </Grid>
-        <div classname="cards-views-bank">
+        <div classname="cards-bank-views">
           {Bank.length > 0 ? (
             Bank.map((postBank) => (
               <div id="list" class="row">
-                <div class="table-responsive col-md-12">
-                  <table
-                    class="table table-striped"
-                    cellspacing="0"
-                    cellpadding="0"
-                  >
-                    <thead>
-                      <tr>
-                        <th>Banco</th>
-                        <th>Agência</th>
-                        <th>Contata</th>
-                        <th>QRCode</th>
-                        <th class="actions">Ações</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>{postBank.bank}</td>
-                        <td>{postBank.agency}</td>
-                        <td>{postBank.account}</td>
-                        <td>
-                          <img
+
+                <div class="card">
+                  <div class="content">
+                  <div>
+                    <h4>Banco: </h4>
+                    <p>{postBank.bank}</p>
+                    </div>
+                    <div>
+                    <h4>Agência: </h4>
+                    <p>{postBank.agency}</p>
+                    </div>
+                    <div>
+                    <h4>Conta:</h4>
+                    <p>{postBank.account}</p>
+                    </div>
+                    <p>
+                    <img
                             src={
                               "http://localhost:3333/uploads/images/qr_code/" +
                               postBank.qr_code
@@ -226,19 +211,16 @@ export default function Bank() {
                             width="250px"
                             height="300px"
                           />
-                        </td>
-                        <td class="actions">
-                          <a
+                    </p>
+
+                    <a
                             class="btn btn-warning btn-xs"
                             href="#"
                             onClick={handleOpenEdit}
                           >
                             Editar
-                          </a>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                          </a>   
+                  </div>
                 </div>
               </div>
             ))
@@ -258,11 +240,7 @@ export default function Bank() {
           >
             <Fade in={openEdit}>
               <div className="paper">
-                <Form 
-                  ref={formRef} 
-                  onSubmit={handleSubmit} 
-                  className="form "
-                >
+                <Form ref={formRef} onSubmit={handleSubmit} className="form ">
                   <h2 id="spring-modal-title">EDITAR CONTA</h2>
                   <Input
                     name="bank"
@@ -286,11 +264,7 @@ export default function Bank() {
                     required
                   />
                   <div className="acoes">
-                    <button 
-                      type="submit"
-                    >
-                      Salvar
-                    </button>
+                    <button type="submit">Salvar</button>
                     <button
                       variant="contained"
                       color="primary"

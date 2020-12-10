@@ -68,3 +68,169 @@ Input {
 .acoes button{
     margin-left: 10px;
 }
+
+
+
+
+
+
+
+.btn-success {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+
+.btn-warning {
+    color: #fff;
+    background-color: #f0ad4e;
+    border-color: #eea236;
+}
+
+.btn-group-xs>.btn, .btn-xs {
+    padding: 1px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+.btn-danger {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+}
+
+.table-striped>tbody>tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+
+
+
+
+#cards-pastor-views{
+    width: 75%;
+    margin: 0 225px 0;
+    display: grid;
+    justify-content: space-between;
+}
+
+
+
+#cards-pastor-views .card {
+    position: relative;
+    height: 250px;
+    width: 600px;
+    background: #fff;
+    margin: 20px;
+    overflow: hidden;
+    border-radius: 20px;
+    transition: .6s;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+}
+
+#cards-pastor-views:hover .card {
+    
+   
+    opacity: 0.5;
+}
+
+#cards-pastor-views .card:hover {
+    filter: blur(0px);
+    transform: scale(1.1);
+    opacity: 1;
+}
+
+#cards-pastor-views .card .circle {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    text-align: center;
+    clip-path: circle(180px at center 0);
+}
+
+#cards-pastor-views .card .circle h2 {
+    color: #fff;
+    font-size: 4em;
+    padding: 30px 0;
+}
+
+#cards-pastor-views .card .content {
+    position: absolute;
+    bottom: 10px;
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+#cards-pastor-views .card .content p {
+    color: #666666;
+}
+
+#cards-pastor-views .card .content a {
+    position: relative;
+    display: inline-block;
+    padding: 10px 20px;
+    color: #fff;
+    background: #000;
+    border-radius: 40px;
+    margin-top: 20px;
+    text-decoration: none;
+}
+
+#cards-pastor-views .card:nth-child(1) .circle, #cards-pastor-views .card:nth-child(1) .content a {
+    background: #ff5733;
+}
+
+#cards-pastor-views .card:nth-child(2) .circle, #cards-pastor-views .card:nth-child(2) .content a {
+    background: #1DA487;
+}
+
+#cards-pastor-views .card:nth-child(3) .circle, #cards-pastor-views .card:nth-child(3) .content a {
+    background: #8227aa;
+}
+
+.content div{
+    display: flex;
+    flex: 1;
+    justify-content: end;
+    margin: auto;
+}
+
+.content div h4{
+    margin-right: 20px;
+}
+
+#without-anything{
+margin: auto;
+    height: 100%;}

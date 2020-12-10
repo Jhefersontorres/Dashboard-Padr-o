@@ -11,6 +11,8 @@ import Fade from "@material-ui/core/Fade";
 import { Form } from "@unform/web";
 import * as Yup from "yup";
 import Input from "../../components/unform/Input/input";
+import InputFile from "../../components/unform/InputFile/fileinput";
+
 
 //import CardPostGrcasa from '../../components/cards/Card-GRemCasa'
 
@@ -43,10 +45,7 @@ export default function Grcasa() {
   function handleSubmit(data, { reset }) {
     try {
       const schema = Yup.object().shape({
-        descricao: Yup.string()
-          .min(3, "Nome tem que ter mais de 3 letras")
-          .required("O nome é obrigatorio"),
-        especificacao: Yup.string().required("CNPJ é obrigatorio"),
+       
       });
 
       schema.validate(data, { abortEarly: false });
@@ -70,15 +69,15 @@ export default function Grcasa() {
   }
 
   function cadGrCasa(dataGrCasa) {
-    fetch("", {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "post",
-      body: JSON.stringify({
-        descricao: dataGrCasa.descricao,
-        especificacoes: dataGrCasa.especificacao,
-      }),
+    let formDataGrCasa = new FormData();
+
+      formDataGrCasa.append("id_pastor", dataGrCasa.id_pastor);
+      formDataGrCasa.append("message", dataGrCasa.message);
+      formDataGrCasa.append("material", dataGrCasa.material)
+
+    fetch("http://localhost:3333/gr-casa", {
+      method: "POST",
+      body: formDataGrCasa,
     })
       .then((response) => response.json())
       .then((response) => {
@@ -170,17 +169,24 @@ export default function Grcasa() {
                           CADASTRO POTS GR EM CASA{" "}
                         </h2>
                         <Input
-                          name="descricao"
-                          id="descricao"
-                          label="DESCRIÇÃO"
+                          name="id_pastor"
+                          id="id_pastor"
+                          label="PASTOR"
                           type="text"
                           required
                         />
                         <Input
-                          name="especificacao"
-                          id="especificacao"
-                          label="ESPECIFICAÇÃO"
+                          name="message"
+                          id="message"
+                          label="MENSSAGEM"
                           type="text"
+                          required
+                        />
+                        <InputFile
+                          name=" material"
+                          id=" material"
+                          label="ARQUIVO PDF"
+                          type="file"
                           required
                         />
 
@@ -203,7 +209,7 @@ export default function Grcasa() {
             </Grid>
           </Grid>
         </Grid>
-        <div classname="cards-views">
+        <div id="cards-grcasa-views">
           {GRCasa.length > 0 ? (
             GRCasa.map((postGrcasa) => (
               <div id="list" class="row">
@@ -236,7 +242,7 @@ export default function Grcasa() {
                           />
                           {postGrcasa.name}
                         </td>
-                        <td>{postGrcasa.message}</td>
+                        <td width="350">{postGrcasa.message}</td>
                         <td>
                           <a
                             class="btn btn-success btn-xs"

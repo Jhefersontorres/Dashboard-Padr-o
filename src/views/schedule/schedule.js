@@ -32,6 +32,7 @@ export default function Schedule() {
 
   const handleClose = () => {
     setOpen(false);
+    window.location.reload();
   };
 
   async function handleSubmit(data, { reset }) {
@@ -126,10 +127,7 @@ export default function Schedule() {
             container
             className="grid"
           >
-            <Grid 
-              item xs={12} 
-              md={6}
-            >
+            <Grid item xs={12} md={6}>
               <div className="paper-hearder">
                 <div id="hearder">
                   <span>AGENDA SEMANAL </span>
@@ -203,65 +201,50 @@ export default function Schedule() {
             </Grid>
           </Grid>
         </Grid>
-        <div classname="cards-views">
+        <div id="cards-Schedule-views">
           {schedules.length > 0 ? (
             schedules.map((postSchedule) => (
-              <div 
-                id="list" 
-                class="row"
-              >
-                <div class="table-responsive col-md-12">
-                  <table
-                    class="table table-striped"
-                    cellspacing="0"
-                    cellpadding="0"
-                  >
-                    <thead>
-                      <tr>
-                        <th>Data</th>
-                        <th>horario</th>
-                        <th>local</th>
-                        <th>descricao</th>
-                        <th class="actions">Ações</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>{postSchedule.day}</td>
-                        <td>{postSchedule.hour}</td>
-                        <td>{postSchedule.local}</td>
-                        <td>{postSchedule.description}</td>
-                        <td class="actions">
-                          <a 
-                            class="btn btn-success btn-xs" 
-                            href="#"
-                          >
-                            Visualizar
-                          </a>
-                          <a 
-                            class="btn btn-warning btn-xs"
-                            href="edit.html"
-                          >
-                            Editar
-                          </a>
-                          <a
-                            class="btn btn-danger btn-xs"
-                            href="#"
-                            data-toggle="modal"
-                            data-target="#delete-modal"
-                            onClick={() => DeleteSchedule(postSchedule.id)}
-                          >
-                            Excluir
-                          </a>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+       
+                <div class="card">
+                  <div class="circle">
+                    <h2>02</h2>
+                  </div>
+                  <div class="content">
+                    <div>
+                    <h4>Data: </h4>
+                    <p>{postSchedule.day}</p>
+                    </div>
+                    <div>
+                      <h4>Horário: </h4>
+                    <p>{postSchedule.hour}</p>
+                    </div>
+                    <div>
+                      <h4>Local: </h4>
+                    <p>{postSchedule.local}</p>
+                    </div>
+                    <div>
+                      <h4>Descrição: </h4>
+                    <p>{postSchedule.description}</p>
+                    </div>
+                    <a class="btn btn-warning btn-xs" href="edit.html">
+                      Editar
+                    </a>
+                    <a
+                      class="btn btn-danger btn-xs"
+                      href="#"
+                      data-toggle="modal"
+                      data-target="#delete-modal"
+                      onClick={() => DeleteSchedule(postSchedule.id)}
+                    >
+                      Excluir
+                    </a>
+                  </div>
                 </div>
-              </div>
+                
+              
             ))
           ) : (
-            <p>Nada encontrado</p>
+            <p id="without-anything">NÃO FOI ENCONTRADO REGISTROS DE LANÇAMENTO</p>
           )}
         </div>
       </div>

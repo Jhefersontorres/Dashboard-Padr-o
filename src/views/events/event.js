@@ -191,58 +191,40 @@ export default function Event() {
             </Grid>
           </Grid>
         </Grid>
-        <div classname="cards-views">
+        <div id="cards-events-views">
           {Event.length > 0 ? (
             Event.map((event) => (
-              <div 
-                id="list" 
-                class="row" 
-                key={event.id}
-              >
-                <div class="table-responsive col-md-12">
-                  <table
-                    class="table table-striped"
-                    cellspacing="0"
-                    cellpadding="0"
-                  >
-                    <thead>
-                      <tr>
-                        <th>Descrição</th>
-                        <th>Imagem / Avatar </th>
-                        <th>Link / FormInscrição </th>
-                        <th class="actions">Ações</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>
-                          {event.description}
-                        </td>
-                        <td>
-                          <img
-                            src={
-                              "http://localhost:3333/uploads/images/events/" +
-                              event.image
-                            }
-                            alt="pastor_image"
-                            width="200px"
-                            height="100px"
-                          />
-                        </td>
-                        <td>
-                          <a
-                            class="btn btn-success btn-xs"
-                            href="#"
-                            onClick={() => getUrl(event.link)}
-                          >
-                            Visualizar
-                          </a>
-                        </td>
-                        <td class="actions">
-                          <a 
-                            class="btn btn-warning btn-xs" 
-                            href="edit.html"
-                          >
+              
+
+                <div class="card">
+                  <div class="content">
+                    
+                    <div>
+                    <h4>Descrição:</h4>
+                    <p>{event.description}</p>
+                    </div>
+                   
+                      <img
+                      id="imgevent"
+                        src={
+                          "http://localhost:3333/uploads/images/events/" +
+                          event.image
+                        }
+                        alt="pastor_image"
+                        
+                      />
+                   
+
+                    <p>
+                      <a
+                        class="btn btn-success btn-xs"
+                        href="#"
+                        onClick={() => getUrl(event.link)}
+                      >
+                        Visualizar
+                      </a>
+                    </p>
+                    <a class="btn btn-warning btn-xs" href="edit.html">
                             Editar
                           </a>
                           <a
@@ -254,12 +236,9 @@ export default function Event() {
                           >
                             Excluir
                           </a>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  </div>
                 </div>
-              </div>
+             
             ))
           ) : (
             <p>Nada encontrado</p>

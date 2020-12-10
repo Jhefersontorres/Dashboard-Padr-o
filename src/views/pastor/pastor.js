@@ -130,10 +130,7 @@ export default function Pastor() {
               <div className="paper-hearder">
                 <div id="hearder">
                   <span> PASTORES </span>
-                  <button 
-                    classename="novo" 
-                    onClick={handleOpen}
-                  >
+                  <button classename="novo" onClick={handleOpen}>
                     NOVO
                   </button>
                 </div>
@@ -187,62 +184,39 @@ export default function Pastor() {
             </Grid>
           </Grid>
         </Grid>
-        <div classname="cards-views">
+        <div id="cards-pastor-views">
           {Pastor.length > 0 ? (
             Pastor.map((postPastor) => (
-              <div 
-                id="list" 
-                class="row" 
-                key={postPastor.id}
-              >
-                <div class="table-responsive col-md-12">
-                  <table
-                    class="table table-striped"
-                    cellspacing="0"
-                    cellpadding="0"
+              <div class="card">
+                <div class="content">
+                  <p>
+                    <img
+                      src={
+                        "http://localhost:3333/uploads/images/pastors/" +
+                        postPastor.pastor_image
+                      }
+                      alt="pastor_image"
+                      width="100px"
+                      height="100px"
+                      style={{ borderRadius: "50%" }}
+                    />
+                  </p>
+
+                  <h4>Pastor </h4>
+                  <p>{postPastor.name}</p>
+
+                  <a class="btn btn-warning btn-xs" href="edit.html">
+                    Editar
+                  </a>
+                  <a
+                    class="btn btn-danger btn-xs"
+                    href="#"
+                    data-toggle="modal"
+                    data-target="#delete-modal"
+                    onClick={() => DeletePastor(postPastor.id)}
                   >
-                    <thead>
-                      <tr>
-                        <th>Nome</th>
-                        <th>Imagem / Avatar </th>
-                        <th class="actions">Ações</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>{postPastor.name}</td>
-                        <td>
-                          <img
-                            src={
-                              "http://localhost:3333/uploads/images/pastors/" +
-                              postPastor.pastor_image
-                            }
-                            alt="pastor_image"
-                            width="100px"
-                            height="100px"
-                            style={{ borderRadius: "50%" }}
-                          />
-                        </td>
-                        <td class="actions">
-                          <a 
-                            class="btn btn-warning btn-xs" 
-                            href="edit.html"
-                          >
-                            Editar
-                          </a>
-                          <a
-                            class="btn btn-danger btn-xs"
-                            href="#"
-                            data-toggle="modal"
-                            data-target="#delete-modal"
-                            onClick={() => DeletePastor(postPastor.id)}
-                          >
-                            Excluir
-                          </a>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                    Excluir
+                  </a>
                 </div>
               </div>
             ))
