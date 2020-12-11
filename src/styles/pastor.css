@@ -138,18 +138,21 @@ Input {
 
 
 #cards-pastor-views{
-    width: 75%;
-    margin: 0 225px 0;
+    width: 78%;
+    /* margin: 38px 257px 0; */
     display: grid;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    grid-template-columns: 1fr 1fr 1fr;
+    margin: auto;
+    place-items: center;
 }
 
 
 
 #cards-pastor-views .card {
     position: relative;
-    height: 250px;
-    width: 600px;
+    height: 275px;
+    width: 350px;
     background: #fff;
     margin: 20px;
     overflow: hidden;

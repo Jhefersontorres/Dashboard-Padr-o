@@ -28,6 +28,7 @@ export default function Event() {
 
   const handleClose = () => {
     setOpen(false);
+    window.location.reload();
   };
 
   async function handleSubmit(data, { reset }) {
@@ -194,51 +195,43 @@ export default function Event() {
         <div id="cards-events-views">
           {Event.length > 0 ? (
             Event.map((event) => (
-              
-
-                <div class="card">
-                  <div class="content">
-                    
-                    <div>
-                    <h4>Descrição:</h4>
-                    <p>{event.description}</p>
-                    </div>
-                   
-                      <img
-                      id="imgevent"
-                        src={
-                          "http://localhost:3333/uploads/images/events/" +
-                          event.image
-                        }
-                        alt="pastor_image"
-                        
-                      />
-                   
-
-                    <p>
-                      <a
-                        class="btn btn-success btn-xs"
-                        href="#"
-                        onClick={() => getUrl(event.link)}
-                      >
-                        Visualizar
-                      </a>
-                    </p>
-                    <a class="btn btn-warning btn-xs" href="edit.html">
-                            Editar
-                          </a>
-                          <a
-                            class="btn btn-danger btn-xs"
-                            href="#"
-                            data-toggle="modal"
-                            data-target="#delete-modal"
-                            onClick={() => DeleteEvent(event.id)}
-                          >
-                            Excluir
-                          </a>
+              <div class="card">
+                <div class="content">
+                  <div id="imagens">
+                  <img
+                    id="imgevent"
+                    src={
+                      "http://localhost:3333/uploads/images/events/" +
+                      event.image
+                    }
+                    alt="pastor_image"
+                  />
                   </div>
+
+                                  <p>{event.description}</p>
+                  <p>
+                    <a
+                      class="btn btn-success btn-xs"
+                      href="#"
+                      onClick={() => getUrl(event.link)}
+                    >
+                      Formulário Incrição
+                    </a>
+                  </p>
+                  <a class="btn btn-warning btn-xs" href="edit.html">
+                    Editar
+                  </a>
+                  <a
+                    class="btn btn-danger btn-xs"
+                    href="#"
+                    data-toggle="modal"
+                    data-target="#delete-modal"
+                    onClick={() => DeleteEvent(event.id)}
+                  >
+                    Excluir
+                  </a>
                 </div>
-             
+              </div>
             ))
           ) : (
             <p>Nada encontrado</p>

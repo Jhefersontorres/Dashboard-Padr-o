@@ -69,19 +69,24 @@ Input {
 
 #cards-events-views{
     width: 75%;
-    margin: 0 225px 0;
-    display: flex;
-    justify-content: space-between;
+
+    display: grid;
+   
+    grid-template-columns: 1fr 1fr 3fr;
+
+    margin: auto;
+    place-items: center;
+    
 }
 
 
 
 #cards-events-views .card {
     position: relative;
-    height: 470px;
-    width: 398px;
+    height: 600px;
+    width: 450px;
     background: #fff;
-    margin: 22px;
+    /* margin: 22px; */
     overflow: hidden;
     border-radius: 20px;
     transition: .6s;
@@ -170,3 +175,10 @@ Input {
 #without-anything{
 margin: auto;
     height: 100%;}
+
+
+#imagens{
+    max-width: 100%;
+    /* height: 100%; */
+    justify-content: center;
+}

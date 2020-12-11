@@ -152,6 +152,7 @@ export default function Schedule() {
                         className="form "
                       >
                         <h2 id="spring-modal-title"> CADASTRO POTS AGENDA </h2>
+                        <div id="date-hour">
                         <Input
                           name="day"
                           id="day"
@@ -163,9 +164,10 @@ export default function Schedule() {
                           name="hour"
                           id="hour"
                           label="HORÁRIO"
-                          type="text"
+                          type="time"
                           required
                         />
+                        </div>
                         <Input
                           name="local"
                           id="local"
@@ -206,9 +208,8 @@ export default function Schedule() {
             schedules.map((postSchedule) => (
        
                 <div class="card">
-                  <div class="circle">
-                    <h2>02</h2>
-                  </div>
+                 
+               
                   <div class="content">
                     <div>
                     <h4>Data: </h4>

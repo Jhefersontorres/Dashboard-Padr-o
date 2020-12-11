@@ -13,7 +13,6 @@ import * as Yup from "yup";
 import Input from "../../components/unform/Input/input";
 import InputFile from "../../components/unform/InputFile/fileinput";
 
-
 //import CardPostGrcasa from '../../components/cards/Card-GRemCasa'
 
 //import GRemCasaContext from '../../components/Contexts/GRemCasaContext';
@@ -44,9 +43,7 @@ export default function Grcasa() {
 
   function handleSubmit(data, { reset }) {
     try {
-      const schema = Yup.object().shape({
-       
-      });
+      const schema = Yup.object().shape({});
 
       schema.validate(data, { abortEarly: false });
 
@@ -71,9 +68,9 @@ export default function Grcasa() {
   function cadGrCasa(dataGrCasa) {
     let formDataGrCasa = new FormData();
 
-      formDataGrCasa.append("id_pastor", dataGrCasa.id_pastor);
-      formDataGrCasa.append("message", dataGrCasa.message);
-      formDataGrCasa.append("material", dataGrCasa.material)
+    formDataGrCasa.append("id_pastor", dataGrCasa.id_pastor);
+    formDataGrCasa.append("message", dataGrCasa.message);
+    formDataGrCasa.append("material", dataGrCasa.material);
 
     fetch("http://localhost:3333/gr-casa", {
       method: "POST",
@@ -132,6 +129,8 @@ export default function Grcasa() {
           <i class="fa fa-user-circle"></i>
           <p>Jheferson torres</p>
         </div>
+
+
         <Grid container justify="center">
           <Grid
             spacing={4}
@@ -210,8 +209,7 @@ export default function Grcasa() {
           </Grid>
         </Grid>
         <div id="cards-grcasa-views">
-          {GRCasa.length > 0 ? (
-            GRCasa.map((postGrcasa) => (
+          
               <div id="list" class="row">
                 <div class="table-responsive col-md-12">
                   <table
@@ -227,6 +225,8 @@ export default function Grcasa() {
                         <th class="actions">Ações</th>
                       </tr>
                     </thead>
+                    {GRCasa.length > 0 ? (
+                    GRCasa.map((postGrcasa) => (
                     <tbody>
                       <tr>
                         <td>
@@ -238,7 +238,7 @@ export default function Grcasa() {
                             alt="pastor_image"
                             width="100px"
                             height="100px"
-                            style={{ borderRadius: "50%" }}
+                            style={{ borderRadius: "20%" }}
                           />
                           {postGrcasa.name}
                         </td>
@@ -280,14 +280,28 @@ export default function Grcasa() {
                         </td>
                       </tr>
                     </tbody>
+                       ))
+                       ) : (
+                         <p>Nada encontrado</p>
+                       )}
                   </table>
                 </div>
               </div>
-            ))
-          ) : (
-            <p>Nada encontrado</p>
-          )}
+              <div id="bottom" class="row">
+    <div class="col-md-12">
+         
+        <ul class="pagination">
+            <li class="disabled"><a>&lt; Anterior</a></li>
+            <li class="disabled"><a>1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li class="next"><a href="#" rel="next">Próximo &gt;</a></li>
+        </ul>
+ 
+    </div>
+</div>    
         </div>
+
       </div>
     </React.Fragment>
   );
