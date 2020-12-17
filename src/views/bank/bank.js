@@ -9,30 +9,27 @@ import Fade from "@material-ui/core/Fade";
 import { Form } from "@unform/web";
 import * as Yup from "yup";
 import Input from "../../components/unform/Input/input";
+import InputFile from "../../components/unform/InputFile/fileinput";
 
 import SideBar from "../../components/sidebar/sidebar";
 import "../../styles/bank.css";
 
 export default function Bank() {
-  //form
   const formRef = useRef(null);
-  //get/post
+  const formEdit = useRef(null);
   const [Bank, setBank] = useState([]);
-
-  //modal
-  const [open, setOpen] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
 
   const handleOpenEdit = () => {
     setOpenEdit(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
+     setInterval(() => {
+        formEdit.current.setData({
+          bank: Bank.bank,
+          agency: Bank.agency,
+          account: Bank.account
+        })
+      }, 1);
+    
   };
 
   const handleCloseEdit = () => {
@@ -41,48 +38,44 @@ export default function Bank() {
 
   function handleSubmit(data, { reset }) {
     try {
-      const schema = Yup.object().shape({
-        descricao: Yup.string()
-          .min(3, "Nome tem que ter mais de 3 letras")
-          .required("O nome é obrigatorio"),
-        especificacao: Yup.string().required("CNPJ é obrigatorio"),
-      });
+      const schema = Yup.object()
+      .shape({
+            });
 
       schema.validate(data, { abortEarly: false });
 
-      formRef.current.setErrors({});
+      formEdit.current.setErrors({});
 
       cadBank(data);
 
       reset();
-    } catch (err) {
+    } 
+    catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errorMessages = {};
-
-        err.inner.forEach((error) => {
+          err.inner.forEach((error) => {
           errorMessages[error.path] = error.message;
         });
-
-        formRef.current.setErrors(errorMessages);
+        formEdit.current.setErrors(errorMessages);
       }
     }
   }
 
   function cadBank(dataBank) {
-    fetch("", {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "post",
-      body: JSON.stringify({
-        descricao: dataBank.descricao,
-        especificacoes: dataBank.especificacao,
-      }),
+    let formDataBank = new FormData();
+
+    formDataBank.append("bank", dataBank.bank);
+    formDataBank.append("agency", dataBank.agency);
+    formDataBank.append("account", dataBank.account);
+    formDataBank.append("qr_code", dataBank.qr_code);
+
+    fetch("http://localhost:3333/bank", {
+      method: "PATCH",
+      body: formDataBank,
     })
       .then((response) => response.json())
       .then((response) => {
-        handleClose();
-        window.location.reload();
+          
         console.log(response);
       })
       .catch((error) => {
@@ -103,6 +96,7 @@ export default function Bank() {
         console.log(err);
       });
   }
+
   useEffect(() => {
     getBank();
   }, []);
@@ -122,62 +116,12 @@ export default function Bank() {
             justify="center"
             container
             className="grid"
-          >
+            >
             <Grid item xs={12} md={6}>
               <div className="paper-hearder">
                 <div id="hearder">
-                  <span> GR EM CASA </span>
-                  <button classename="novo" onClick={handleOpen}>
-                    NOVO
-                  </button>
+                  <span> INFORMAÇÕES BANCÁRIAS </span>
                 </div>
-                <Modal
-                  aria-labelledby="transition-modal-title"
-                  aria-describedby="transition-modal-description"
-                  className="modal"
-                  open={open}
-                  closeAfterTransition
-                  BackdropComponent={Backdrop}
-                  BackdropProps={{ timeout: 900 }}
-                >
-                  <Fade in={open}>
-                    <div className="paper">
-                      <Form
-                        ref={formRef}
-                        onSubmit={handleSubmit}
-                        className="form "
-                      >
-                        <h2 id="spring-modal-title"> CONTA BANCÁRIA </h2>
-                        <Input
-                          name="descricao"
-                          id="descricao"
-                          label="DESCRIÇÃO"
-                          type="text"
-                          required
-                        />
-                        <Input
-                          name="especificacao"
-                          id="especificacao"
-                          label="ESPECIFICAÇÃO"
-                          type="text"
-                          required
-                        />
-
-                        <div className="acoes">
-                          <button type="submit">Salvar</button>
-                          <button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleClose}
-                            BackdropProps={{ timeout: 1000 }}
-                          >
-                            Voltar
-                          </button>
-                        </div>
-                      </Form>
-                    </div>
-                  </Fade>
-                </Modal>
               </div>
             </Grid>
           </Grid>
@@ -186,40 +130,36 @@ export default function Bank() {
           {Bank.length > 0 ? (
             Bank.map((postBank) => (
               <div id="list" class="row">
-
                 <div class="card">
                   <div class="content">
-                  <div>
-                    <h4>Banco: </h4>
-                    <p>{postBank.bank}</p>
+                    <div>
+                      <h4>Banco: </h4>
+                      <p>{postBank.bank}</p>
                     </div>
                     <div>
-                    <h4>Agência: </h4>
-                    <p>{postBank.agency}</p>
+                      <h4>Agência: </h4>
+                      <p>{postBank.agency}</p>
                     </div>
                     <div>
-                    <h4>Conta:</h4>
-                    <p>{postBank.account}</p>
+                      <h4>Conta:</h4>
+                      <p>{postBank.account}</p>
                     </div>
                     <p>
-                    <img
-                            src={
-                              "http://localhost:3333/uploads/images/qr_code/" +
-                              postBank.qr_code
-                            }
-                            alt="qr_code"
-                            width="250px"
-                            height="300px"
-                          />
+                      <img
+                        src={"http://localhost:3333/uploads/images/qr_code/" +
+                              postBank.qr_code}
+                        alt="qr_code"
+                        width="250px"
+                        height="300px"
+                      />
                     </p>
-
                     <a
-                            class="btn btn-warning btn-xs"
-                            href="#"
-                            onClick={handleOpenEdit}
-                          >
-                            Editar
-                          </a>   
+                      class="btn btn-warning btn-xs"
+                      href="#"
+                      onClick={handleOpenEdit}
+                      >
+                      Editar
+                    </a>
                   </div>
                 </div>
               </div>
@@ -237,10 +177,10 @@ export default function Bank() {
             closeAfterTransition
             BackdropComponent={Backdrop}
             BackdropProps={{ timeout: 900 }}
-          >
+            >
             <Fade in={openEdit}>
               <div className="paper">
-                <Form ref={formRef} onSubmit={handleSubmit} className="form ">
+                <Form ref={formEdit} onSubmit={handleSubmit} className="form ">
                   <h2 id="spring-modal-title">EDITAR CONTA</h2>
                   <Input
                     name="bank"
@@ -263,14 +203,18 @@ export default function Bank() {
                     type="text"
                     required
                   />
+                  <InputFile
+                    name="qr_code"
+                    type="file"
+                  />
                   <div className="acoes">
                     <button type="submit">Salvar</button>
                     <button
                       variant="contained"
                       color="primary"
-                      onClick={handleCloseEdit}
+                      onClick={() => handleCloseEdit}
                       BackdropProps={{ timeout: 1000 }}
-                    >
+                      >
                       Voltar
                     </button>
                   </div>

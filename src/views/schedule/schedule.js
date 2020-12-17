@@ -21,11 +21,13 @@ import Posts from "../../components/pagination/Posts";
 export default function Schedule() {
   //form
   const formRef = useRef(null);
+  const formRefEdit = useRef(null);
   //get/post
   const [schedules, setSchedule] = useState([]);
 
   //modal
   const [open, setOpen] = React.useState(false);
+  const [openEdit, setOpenEdit] = React.useState(false);
   const handleOpen = () => {
     setOpen(true);
   };
@@ -34,26 +36,46 @@ export default function Schedule() {
     setOpen(false);
     window.location.reload();
   };
+  const handleOpenEdit = () => {
+    setOpenEdit(true);
+  };
 
-  async function handleSubmit(data, { reset }) {
+  const handleCloseEdit = () => {
+    setOpenEdit(false);
+    window.location.reload();
+  };
+
+  async function handleSubmitEdit(data, { reset }) {
     try {
       const schema = Yup.object().shape({});
-
       await schema.validate(data, { abortEarly: false });
-
-      formRef.current.setErrors({});
-
-      cadSchedule(data);
-
+      formRefEdit.current.setErrors({});
+      editSchedule(data);
       reset();
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errorMessages = {};
-
         err.inner.forEach((error) => {
           errorMessages[error.path] = error.message;
         });
+        formRefEdit.current.setErrors(errorMessages);
+      }
+    }
+  }
 
+  async function handleSubmit(data, { reset }) {
+    try {
+      const schema = Yup.object().shape({});
+      await schema.validate(data, { abortEarly: false });
+      formRef.current.setErrors({});
+      cadSchedule(data);
+      reset();
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const errorMessages = {};
+        err.inner.forEach((error) => {
+          errorMessages[error.path] = error.message;
+        });
         formRef.current.setErrors(errorMessages);
       }
     }
@@ -92,24 +114,31 @@ export default function Schedule() {
       });
   }
 
-  useEffect(() => {
-    getSchedule();
-  }, []);
-
-  function DeleteSchedule(id) {
-    fetch("http://localhost:3333/schedule/" + id, {
-      method: "DELETE",
+  function editSchedule(dataSchedule) {
+    fetch("http://localhost:3333/schedule/" + dataSchedule.id ,  {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "PACHT",
+      body: JSON.stringify({
+        day: dataSchedule.dayedit,
+        hour: dataSchedule.houredit,
+        local: dataSchedule.localedit,
+        description: dataSchedule.descriptionedit,
+      }),
     })
       .then((response) => response.json())
       .then((response) => {
-        getSchedule();
-        alert(response.message);
         console.log(response);
       })
-      .catch((err) => {
-        console.log(err.message, "Ooops ouve um erro de conexão");
+      .catch((error) => {
+        console.log(error);
       });
   }
+
+  useEffect(() => {
+    getSchedule();
+  }, []);
 
   return (
     <React.Fragment>
@@ -126,7 +155,7 @@ export default function Schedule() {
             justify="center"
             container
             className="grid"
-          >
+            >
             <Grid item xs={12} md={6}>
               <div className="paper-hearder">
                 <div id="hearder">
@@ -143,30 +172,30 @@ export default function Schedule() {
                   closeAfterTransition
                   BackdropComponent={Backdrop}
                   BackdropProps={{ timeout: 900 }}
-                >
+                  >
                   <Fade in={open}>
                     <div className="paper">
                       <Form
                         ref={formRef}
                         onSubmit={handleSubmit}
                         className="form "
-                      >
+                        >
                         <h2 id="spring-modal-title"> CADASTRO POTS AGENDA </h2>
                         <div id="date-hour">
-                        <Input
-                          name="day"
-                          id="day"
-                          label="DATA"
-                          type="date"
-                          required
-                        />
-                        <Input
-                          name="hour"
-                          id="hour"
-                          label="HORÁRIO"
-                          type="time"
-                          required
-                        />
+                          <Input
+                            name="day"
+                            id="day"
+                            label="DATA"
+                            type="date"
+                            required
+                          />
+                          <Input
+                            name="hour"
+                            id="hour"
+                            label="HORÁRIO"
+                            type="time"
+                            required
+                          />
                         </div>
                         <Input
                           name="local"
@@ -191,7 +220,7 @@ export default function Schedule() {
                             color="primary"
                             onClick={handleClose}
                             BackdropProps={{ timeout: 1000 }}
-                          >
+                            >
                             Voltar
                           </button>
                         </div>
@@ -206,47 +235,105 @@ export default function Schedule() {
         <div id="cards-Schedule-views">
           {schedules.length > 0 ? (
             schedules.map((postSchedule) => (
-       
-                <div class="card">
-                 
-               
-                  <div class="content">
-                    <div>
+              <div class="card">
+                <div class="content">
+                  <div>
                     <h4>Data: </h4>
                     <p>{postSchedule.day}</p>
-                    </div>
-                    <div>
-                      <h4>Horário: </h4>
-                    <p>{postSchedule.hour}</p>
-                    </div>
-                    <div>
-                      <h4>Local: </h4>
-                    <p>{postSchedule.local}</p>
-                    </div>
-                    <div>
-                      <h4>Descrição: </h4>
-                    <p>{postSchedule.description}</p>
-                    </div>
-                    <a class="btn btn-warning btn-xs" href="edit.html">
-                      Editar
-                    </a>
-                    <a
-                      class="btn btn-danger btn-xs"
-                      href="#"
-                      data-toggle="modal"
-                      data-target="#delete-modal"
-                      onClick={() => DeleteSchedule(postSchedule.id)}
-                    >
-                      Excluir
-                    </a>
                   </div>
+                  <div>
+                    <h4>Horário: </h4>
+                    <p>{postSchedule.hour}</p>
+                  </div>
+                  <div>
+                    <h4>Local: </h4>
+                    <p>{postSchedule.local}</p>
+                  </div>
+                  <div>
+                    <h4>Descrição: </h4>
+                    <p>{postSchedule.description}</p>
+                  </div>
+                  <a
+                    class="btn btn-warning btn-xs"
+                    href="#"
+                    onClick={handleOpenEdit}
+                  >
+                    Editar
+                  </a>
                 </div>
-                
-              
+              </div>
             ))
           ) : (
-            <p id="without-anything">NÃO FOI ENCONTRADO REGISTROS DE LANÇAMENTO</p>
+            <p id="without-anything">
+              NÃO FOI ENCONTRADO REGISTROS DE LANÇAMENTO
+            </p>
           )}
+
+          {/* MODAL EDITAR AGENDA*/}
+          <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            className="modal"
+            open={openEdit}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{ timeout: 900 }}
+            >
+            <Fade in={openEdit}>
+              <div className="paper">
+                <Form
+                  ref={formRefEdit}
+                  onSubmit={handleSubmitEdit}
+                  className="form "
+                  >
+                  <h2 id="spring-modal-title"> CADASTRO POTS AGENDA </h2>
+                  <div id="date-hour">
+                    <Input
+                      name="dayedit"
+                      id="dayedit"
+                      label="DATA"
+                      type="date"
+                      required
+                    />
+                    <Input
+                      name="houredit"
+                      id="houredit"
+                      label="HORÁRIO"
+                      type="time"
+                      required
+                    />
+                  </div>
+                  <Input
+                    name="localedit"
+                    id="localedit"
+                    label="LOCAL"
+                    type="text"
+                    placeholder="Ex: IPR Central"
+                    required
+                  />
+                  <Input
+                    name="descriptionedit"
+                    id="descriptionedit"
+                    label="DESCRIÇÃO"
+                    type="text"
+                    placeholder="Ex: CULTO ALIANÇA"
+                    required
+                  />
+                  <div className="acoes">
+                    <button type="submit">Salvar</button>
+                    <button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleClose}
+                      BackdropProps={{ timeout: 1000 }}
+                      >
+                      Voltar
+                    </button>
+                  </div>
+                </Form>
+              </div>
+            </Fade>
+          </Modal>
         </div>
       </div>
     </React.Fragment>

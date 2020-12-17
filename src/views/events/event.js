@@ -80,7 +80,6 @@ export default function Event() {
       .then((response) => response.json())
       .then((response) => {
         console.log("response", response);
-
         setEvent(response);
       })
       .catch((err) => {
@@ -198,17 +197,17 @@ export default function Event() {
               <div class="card">
                 <div class="content">
                   <div id="imagens">
-                  <img
-                    id="imgevent"
-                    src={
-                      "http://localhost:3333/uploads/images/events/" +
-                      event.image
-                    }
-                    alt="pastor_image"
-                  />
+                    <img
+                      id="imgevent"
+                      src={
+                        "http://localhost:3333/uploads/images/events/" +
+                        event.image
+                      }
+                      alt="pastor_image"
+                    />
                   </div>
 
-                                  <p>{event.description}</p>
+                  <p>{event.description}</p>
                   <p>
                     <a
                       class="btn btn-success btn-xs"

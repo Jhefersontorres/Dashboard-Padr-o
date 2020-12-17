@@ -40,7 +40,7 @@ export default function LoginUser() {
 
   function loginDashboard(dataLogin) {
     console.log(dataLogin )
-    fetch('http://localhost:3033/usuario/login', {
+    fetch('http://localhost:3333/user/login', {
       method: "POST",
       headers: {
         'Content-Type': 'application/json'
@@ -51,8 +51,9 @@ export default function LoginUser() {
       })
     }).then(response => response.json())
       .then(response => {
-        console.log("user", response.user)
-        if (response.status === 200) {
+        if (response.token) {
+          console.log("user", response.user)
+  
           sessionStorage.setItem("exp", response.exp)
           sessionStorage.setItem("web_token", response.token)
           sessionStorage.setItem("user", JSON.stringify(response.user))
