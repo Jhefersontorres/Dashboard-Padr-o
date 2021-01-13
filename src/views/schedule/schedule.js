@@ -28,21 +28,31 @@ export default function Schedule() {
   //modal
   const [open, setOpen] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
+
   const handleOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
-    window.location.reload();
   };
-  const handleOpenEdit = () => {
+
+  const handleOpenEdit = (schedule) => {
     setOpenEdit(true);
+
+    setTimeout(() => {
+      formRefEdit.current.setData({
+        day: schedule.day_unformated,
+        hour: schedule.hour,
+        local: schedule.local,
+        description: schedule.description
+      });
+    }, 100);
   };
 
   const handleCloseEdit = () => {
+    console.log("d")
     setOpenEdit(false);
-    window.location.reload();
   };
 
   async function handleSubmitEdit(data, { reset }) {
@@ -82,7 +92,7 @@ export default function Schedule() {
   }
 
   function cadSchedule(dataSchedule) {
-    fetch("http://localhost:3333/schedule/", {
+    fetch("http://localhost:3333/schedule", {
       headers: {
         "Content-Type": "application/json",
       },
@@ -96,7 +106,8 @@ export default function Schedule() {
     })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
+        getSchedule();
+        handleClose();
       })
       .catch((error) => {
         console.log(error);
@@ -107,6 +118,18 @@ export default function Schedule() {
     fetch("http://localhost:3333/schedule")
       .then((response) => response.json())
       .then((response) => {
+        response.map(schedule => {
+          const date = new Date();
+
+          const year = date.getFullYear();
+          const day = schedule.day.split('/');
+
+          const day_unformated = `${year}-${day[1]}-${day[0]}`;
+
+          schedule.day_unformated = day_unformated;
+        });
+
+        console.log(response)
         setSchedule(response);
       })
       .catch((err) => {
@@ -119,7 +142,7 @@ export default function Schedule() {
       headers: {
         "Content-Type": "application/json",
       },
-      method: "PACHT",
+      method: "PATCH",
       body: JSON.stringify({
         day: dataSchedule.dayedit,
         hour: dataSchedule.houredit,
@@ -148,193 +171,9 @@ export default function Schedule() {
           <i class="fa fa-user-circle"></i>
           <p>Jheferson torres</p>
         </div>
-        <Grid container justify="center">
-          <Grid
-            spacing={4}
-            alignItems="center"
-            justify="center"
-            container
-            className="grid"
-            >
-            <Grid item xs={12} md={6}>
-              <div className="paper-hearder">
-                <div id="hearder">
-                  <span>AGENDA SEMANAL </span>
-                  <button classename="novo" onClick={handleOpen}>
-                    NOVO
-                  </button>
-                </div>
-                <Modal
-                  aria-labelledby="transition-modal-title"
-                  aria-describedby="transition-modal-description"
-                  className="modal"
-                  open={open}
-                  closeAfterTransition
-                  BackdropComponent={Backdrop}
-                  BackdropProps={{ timeout: 900 }}
-                  >
-                  <Fade in={open}>
-                    <div className="paper">
-                      <Form
-                        ref={formRef}
-                        onSubmit={handleSubmit}
-                        className="form "
-                        >
-                        <h2 id="spring-modal-title"> CADASTRO POTS AGENDA </h2>
-                        <div id="date-hour">
-                          <Input
-                            name="day"
-                            id="day"
-                            label="DATA"
-                            type="date"
-                            required
-                          />
-                          <Input
-                            name="hour"
-                            id="hour"
-                            label="HORÁRIO"
-                            type="time"
-                            required
-                          />
-                        </div>
-                        <Input
-                          name="local"
-                          id="local"
-                          label="LOCAL"
-                          type="text"
-                          placeholder="Ex: IPR Central"
-                          required
-                        />
-                        <Input
-                          name="description"
-                          id="description"
-                          label="DESCRIÇÃO"
-                          type="text"
-                          placeholder="Ex: CULTO ALIANÇA"
-                          required
-                        />
-                        <div className="acoes">
-                          <button type="submit">Salvar</button>
-                          <button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleClose}
-                            BackdropProps={{ timeout: 1000 }}
-                            >
-                            Voltar
-                          </button>
-                        </div>
-                      </Form>
-                    </div>
-                  </Fade>
-                </Modal>
-              </div>
-            </Grid>
-          </Grid>
-        </Grid>
-        <div id="cards-Schedule-views">
-          {schedules.length > 0 ? (
-            schedules.map((postSchedule) => (
-              <div class="card">
-                <div class="content">
-                  <div>
-                    <h4>Data: </h4>
-                    <p>{postSchedule.day}</p>
-                  </div>
-                  <div>
-                    <h4>Horário: </h4>
-                    <p>{postSchedule.hour}</p>
-                  </div>
-                  <div>
-                    <h4>Local: </h4>
-                    <p>{postSchedule.local}</p>
-                  </div>
-                  <div>
-                    <h4>Descrição: </h4>
-                    <p>{postSchedule.description}</p>
-                  </div>
-                  <a
-                    class="btn btn-warning btn-xs"
-                    href="#"
-                    onClick={handleOpenEdit}
-                  >
-                    Editar
-                  </a>
-                </div>
-              </div>
-            ))
-          ) : (
-            <p id="without-anything">
-              NÃO FOI ENCONTRADO REGISTROS DE LANÇAMENTO
-            </p>
-          )}
 
-          {/* MODAL EDITAR AGENDA*/}
-          <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            className="modal"
-            open={openEdit}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{ timeout: 900 }}
-            >
-            <Fade in={openEdit}>
-              <div className="paper">
-                <Form
-                  ref={formRefEdit}
-                  onSubmit={handleSubmitEdit}
-                  className="form "
-                  >
-                  <h2 id="spring-modal-title"> CADASTRO POTS AGENDA </h2>
-                  <div id="date-hour">
-                    <Input
-                      name="dayedit"
-                      id="dayedit"
-                      label="DATA"
-                      type="date"
-                      required
-                    />
-                    <Input
-                      name="houredit"
-                      id="houredit"
-                      label="HORÁRIO"
-                      type="time"
-                      required
-                    />
-                  </div>
-                  <Input
-                    name="localedit"
-                    id="localedit"
-                    label="LOCAL"
-                    type="text"
-                    placeholder="Ex: IPR Central"
-                    required
-                  />
-                  <Input
-                    name="descriptionedit"
-                    id="descriptionedit"
-                    label="DESCRIÇÃO"
-                    type="text"
-                    placeholder="Ex: CULTO ALIANÇA"
-                    required
-                  />
-                  <div className="acoes">
-                    <button type="submit">Salvar</button>
-                    <button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleClose}
-                      BackdropProps={{ timeout: 1000 }}
-                      >
-                      Voltar
-                    </button>
-                  </div>
-                </Form>
-              </div>
-            </Fade>
-          </Modal>
-        </div>
+
+        
       </div>
     </React.Fragment>
   );

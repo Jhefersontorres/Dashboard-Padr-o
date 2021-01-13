@@ -91,9 +91,11 @@ class Prospeccao extends Component {
     const { classes } = this.props;
     return (
       <React.Fragment>
-     
-     
         <SideBar/>
+        <div id="top-bar">
+          <i class="fa fa-sign-out fa-2x">rere</i>
+          
+        </div>
         <div className={classes.root}>
           <Grid container justify="center">
             <Grid
@@ -103,89 +105,10 @@ class Prospeccao extends Component {
               container
               className={classes.grid}
             >
-              <Grid  item xs={12} md={6}>
-                <Paper className={classes.paper}>
-                  <div className={classes.box}>
-                    <Typography
-                      style={{ textTransform: "uppercase" }}
-                      color="secondary"
-                      gutterBottom
-                    >
-                      Sistemas 
-                    </Typography>
-                    <Typography variant="body2" gutterBottom>
-                      Lista de sistemas desenvolvidos pela NPD
-                    </Typography>
-                  </div>
-                  <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                    <Button
-                      color="primary"
-                      variant="contained"
-                      className={classes.actionButtom}
-                      onClick={() => window.location.href = "/sistemas"}
-                    >
-                      ver todos
-                    </Button>
-                  </div>
-                </Paper>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Paper className={classes.paper}>
-                  <div className={classes.box}>
-                    <Typography
-                      style={{ textTransform: "uppercase" }}
-                      color="secondary"
-                      gutterBottom
-                    >
-                      Prospecção
-                    </Typography>
-                    <Typography variant="body1" gutterBottom>
-                      Lista de clientes futura vendas
-                    </Typography>
-                  </div>
-                  <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                    <Button
-                      color="primary"
-                      variant="contained"
-                      className={classes.actionButtom}
-                      onClick={() => window.location.href = "/prospeccao"}
-                    >
-                      ver todos
-                    </Button>
-                  </div>
-                </Paper>
-              </Grid>
-              
-         
-              <Grid container item xs={12}>
-                <Grid item xs={12}>
-                  <Paper className={classes.paper}>
-                    <div>
-                      <div className={classes.box}>
-                        <Typography color="secondary" gutterBottom>
-                          Mensagens 
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                          Centra de mensagens contato clientes
-                        </Typography>
-                      </div>
-                      <div className={classes.alignRight}>
-                        <Button
-                          color="primary"
-                          variant="contained"
-                          className={classes.actionButtom}
-                          onClick={() => window.location.href = "/mensagens"} 
-                        >
-                          ver mensagens
-                        </Button>
-                      </div>
-                    </div>
-                  </Paper>
-                </Grid>
-              </Grid>
+
+
             </Grid>
           </Grid>
-          
         </div>
       </React.Fragment>
     )

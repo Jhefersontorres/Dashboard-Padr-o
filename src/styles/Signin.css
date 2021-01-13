@@ -9,20 +9,27 @@
 
 #container{
   text-align: -webkit-right;
-  margin: 100px 0;
+
   height: 100%;
   width: 100%;
   place-items: center;
   padding: 100px;
+
+  background-image: url("../images/fundo3.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+
+
+  
 }
 
 .wrapper{
   overflow: hidden;
   max-width: 28rem;
-  height: 30rem;
-  background: #fff;
+  height: 35rem;
+  background: #000;
   padding: 50px;
-  border-radius: 5px;
+  border-radius: 25px;
   box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
 }
 
@@ -70,7 +77,7 @@
 }
 .field Input{
     height: 4rem;
-    width: 100%;
+    width: 95%;
     outline: none;
     padding-left: 1rem;
     border-radius: 10px;
@@ -91,33 +98,33 @@ Input:focus::placeholder{
   color: #b3b3b3;
 }
 
-form .btn{
-  height: 50px;
-  width: 100%;
-  border-radius: 5px;
+form .btn-signin{
+  height: 63px;
+  width: 331px;
+  border-radius: 12px;
   position: relative;
   overflow: hidden;
 }
-form .btn .btn-layer{
+form .btn-signin .btn-layer{
   height: 100%;
   width: 300%;
   position: absolute;
   left: -100%;
-  background: -webkit-linear-gradient(right,#1475c5, #42a6fa,#1475c5, #42a6fa);
+  background: -webkit-linear-gradient(right,#434444, #fcfcfc,#a5b7c5, #f2f4f5);
   border-radius: 5px;
   transition: all 0.4s ease;;
 }
-form .btn:hover .btn-layer{
+form  .btn-signin:hover .btn-layer{
   left: 0;
 }
-form .btn Input[type="submit"]{
+form .btn-signin Input[type="submit"]{
   height: 100%;
   width: 100%;
   z-index: 1;
   position: relative;
   background: none;
   border: none;
-  color: #fff;
+  color: rgb(10, 10, 10);
   padding-left: 0;
   border-radius: 5px;
   font-size: 20px;

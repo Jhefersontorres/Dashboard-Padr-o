@@ -4,6 +4,8 @@ import { Form } from "@unform/web";
 import * as Yup from 'yup';
 import Input from "../../components/unform/Input/input";
 
+import logo from "../../images/logo.jpg"
+
 import '../../styles/Signin.css'
 
 
@@ -70,7 +72,13 @@ export default function LoginUser() {
     <div id="container">
       <div className="wrapper">
         <div className="title-text">
-          <div className="title login" >Login <br />Ecommerce </div>
+          <div className="title login" >
+            <img src={logo}
+            alt="qr_code"
+            width="100px"
+            height="100px"
+            />
+          </div>
         </div>
         <div className="form-container">
           <div className="form-inner">
@@ -100,9 +108,9 @@ export default function LoginUser() {
               
               </div>
 
-              <div className="field btn">
+              <div className="field btn-signin">
                 <div className="btn-layer"></div>
-                <input type="submit" value="Login" />
+                <input type="submit" value="LOGIN" />
               </div>
             </Form>
           </div>

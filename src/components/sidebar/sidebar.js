@@ -32,7 +32,7 @@ export default function sidebar() {
           <span>Pastores</span>
         </a>
         <a href="/contas">
-          <i class="fa fa-money" aria-hidden="true"></i>
+          <i class="fa fa-university" aria-hidden="true"></i>
           <span>Contas</span>
         </a>
         <a href="/usuarios">
