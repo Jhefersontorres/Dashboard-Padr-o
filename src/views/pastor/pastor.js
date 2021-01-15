@@ -111,15 +111,172 @@ export default function Pastor() {
   }
 
   return (
-    <React.Fragment>
+<React.Fragment>
       <div classename="container">
         <SideBar />
-        <div id="top-bar">
-          <i class="fa fa-user-circle"></i>
-          <p>Jheferson torres</p>
-        </div>
-
-        
+        <Grid container justify="center">
+          <Grid
+            spacing={4}
+            alignItems="center"
+            justify="center"
+            container
+            className="grid"
+          >
+            <div className="paper-hearder-pastor">
+              <div id="hearder-pastor">
+                <p className="title"> CADASTRO DE PASTORES  </p>
+                <div id="btn-fas-novo3" type="button" onClick={handleOpen}>
+                  <i class="fas fa-save"></i>
+                  <p classename="btn-novo">NOVO</p>
+                </div>
+              </div>
+            </div>
+            {/* #####################  MODAL CADASTRO DE PASTORES   ##################### */}
+            <Modal
+              aria-labelledby="transition-modal-title"
+              aria-describedby="transition-modal-description"
+              className="modal"
+              open={open}
+              closeAfterTransition
+              BackdropComponent={Backdrop}
+              BackdropProps={{ timeout: 900 }}
+            >
+              <Fade in={open}>
+                <div className="paper">
+                  <Form ref={formRef} onSubmit={handleSubmit} className="form ">
+                    <h2 id="spring-modal-title">CADASTRO DE PASTORES E LIDERES</h2>
+                    <Input
+                          name="name"
+                          id="name"
+                          label="NOME PASTOR"
+                          type="text"
+                          required
+                        />
+                        <InputFile
+                          name="pastor_image"
+                          id="pastor_image"
+                          label="IMAGEM / AVATAR"
+                          type="file"
+                          required
+                        />
+                    <div className="acoes">
+                      <button
+                        type="submit"
+                        id="btn-fas-novo"
+                        class="btn btn-success"
+                      >
+                        <i class="fas fa-save"></i>
+                        Salvar
+                      </button>
+                      <button
+                        id="btn-fas-novo"
+                        class="fas fa-reply"
+                        class="btn btn-warning btn-xs"
+                        onClick={handleClose}
+                        BackdropProps={{ timeout: 1000 }}
+                      >
+                        <i class="fas fa-share"></i>
+                        Voltar
+                      </button>
+                    </div>
+                  </Form>
+                </div>
+              </Fade>
+            </Modal>
+          </Grid>
+          <div className="wrapper-event">
+            {Pastor.length > 0 ? (
+              Pastor.map((postPastor) => (
+                <div class="card">
+                  <div class="img">
+                    <img
+                      id="imgevent"
+                      src={
+                        "http://localhost:3333/uploads/images/pastors/" +
+                        postPastor.pastor_image
+                      }
+                      alt="pastor_image"
+                    />
+                  </div>
+                  <div className="content">
+                    <div className="title">{postPastor.name}</div>    
+                  </div>
+                  <div className="btn-acao">
+                      <button 
+                         id="btn_acoes"
+                         class="btn btn-warning btn-xs"    
+                            
+                        >
+                         <i id="fas_acoes" class="fas fa-edit"></i>
+                         Editar
+                      </button>
+                      <button 
+                        id="btn_acoes"
+                        class="btn btn-danger btn-xs"
+                       
+                        >
+                        <i id="fas_acoes" class="fas fa-trash-alt"></i>
+                        Excluir
+                      </button>
+                    </div>
+                </div>
+              ))
+            ) : (
+              <p>Nada encontrado</p>
+            )}
+          </div>
+           {/* ##########    MODAL EDITAR EVENTOS      ########## 
+           <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            className="modal"
+            open={openEdit}
+            >
+            <Fade in={openEdit}>
+              <div className="paper">
+                <Form
+                  ref={formRefEdit}
+                  onSubmit={handleSubmitEdit}
+                  className="form "
+                  >
+                  <h2 id="spring-modal-title"> EDITAR EVENTO </h2>
+                  
+                  <Input
+                      name="description"
+                      id="description"
+                      label="DESCRIÇÃO"
+                      type="text"
+                      required
+                    />
+                    <InputFile
+                      name="event_image"
+                      id="event_image"
+                      label="IMAGEM / BANNER"
+                      type="file"
+                      required
+                    />
+                    <Input
+                      name="link"
+                      id="link"
+                      label="LINK FORMULÁRIO DE CADASTRO"
+                      type="text"
+                      required
+                    />
+                  <div className="acoes">
+                    <button type="submit">Salvar</button>
+                    <button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleCloseEdit}
+                      >
+                      Voltar
+                    </button>
+                  </div>
+                </Form>
+              </div>
+            </Fade>
+          </Modal>*/}
+        </Grid>
       </div>
     </React.Fragment>
   );

@@ -233,7 +233,7 @@ export default function Grcasa() {
             {GRCasa.length > 0 ? (
               GRCasa.map((postGrcasa) => (
                 <div class="box">
-                  <i class="fas fa-quote-left quote"></i>
+                  <p>Mensagem</p>
                   <p>{postGrcasa.message}</p>
                   <div id="anexo">
                     <a

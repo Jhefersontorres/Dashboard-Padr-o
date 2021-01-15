@@ -17,8 +17,11 @@ import "../../styles/event.css";
 export default function Event() {
   //form
   const formRef = useRef(null);
+  const formRefEdit = useRef(null);
   //get/post
   const [Event, setEvent] = useState([]);
+  const [openEdit, setOpenEdit] = React.useState(false);
+  const [IdEvent, setIdEvent] = useState(0);
 
   //modal
   const [open, setOpen] = React.useState(false);
@@ -26,9 +29,28 @@ export default function Event() {
     setOpen(true);
   };
 
+  const handleOpenEdit = (eventes, id) => {
+    setOpenEdit(true);
+    setIdEvent(handleOpenEdit.id)
+
+    setTimeout(() => {
+      formRefEdit.current.setData({
+        description: eventes.description,
+        event_image: eventes.event_image,
+        description: eventes.description,
+      });
+    }, 100);
+  };
+
   const handleClose = () => {
     setOpen(false);
     window.location.reload();
+  };
+
+
+  const handleCloseEdit = () => {
+    console.log("d");
+    setOpenEdit(false);
   };
 
   async function handleSubmit(data, { reset }) {
@@ -55,6 +77,40 @@ export default function Event() {
     }
   }
 
+  async function handleSubmit(data, { reset }) {
+    try {
+      const schema = Yup.object().shape({});
+      await schema.validate(data, { abortEarly: false });
+      formRef.current.setErrors({});
+      cadEvent(data);
+      reset();
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const errorMessages = {};
+        err.inner.forEach((error) => {
+          errorMessages[error.path] = error.message;
+        });
+        formRef.current.setErrors(errorMessages);
+      }
+    }
+  }
+  async function handleSubmitEdit(data, { reset }) {
+    try {
+      const schema = Yup.object().shape({});
+      await schema.validate(data, { abortEarly: false });
+      formRefEdit.current.setErrors({});
+      editEvent(data);
+      reset();
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const errorMessages = {};
+        err.inner.forEach((error) => {
+          errorMessages[error.path] = error.message;
+        });
+        formRefEdit.current.setErrors(errorMessages);
+      }
+    }
+  }
   function cadEvent(dataEvent) {
     let formDataEvent = new FormData();
 
@@ -75,6 +131,30 @@ export default function Event() {
       });
   }
 
+  
+function editEvent(dataEditEvent){
+  console.log(dataEditEvent);
+  let formDataEditEvent = new FormData();
+
+  formDataEditEvent.append("description", dataEditEvent.description);
+  formDataEditEvent.append("event_image", dataEditEvent.event_image);
+  formDataEditEvent.append("link", dataEditEvent.link);
+
+  
+  fetch("http://localhost:3333/event/" + IdEvent, {
+    method: "PATCH",
+    body: formDataEditEvent,
+  })
+  .then((response) => response.json())
+  .then((response) => {
+    console.log(response);
+  })
+  .catch((err) => {
+    console.log(err.message, "Opps ocorreu um erro de conexão")
+  })
+}
+
+
   function getEvent() {
     fetch("http://localhost:3333/event")
       .then((response) => response.json())
@@ -90,6 +170,7 @@ export default function Event() {
   useEffect(() => {
     getEvent();
   }, []);
+
 
   function DeleteEvent(id) {
     fetch("http://localhost:3333/event/" + id, {
@@ -114,13 +195,185 @@ export default function Event() {
     <React.Fragment>
       <div classename="container">
         <SideBar />
-        <div id="top-bar">
-          <i class="fa fa-user-circle"></i>
-          <p>Jheferson torres</p>
-        </div>
-
-
-        
+        <Grid container justify="center">
+          <Grid
+            spacing={4}
+            alignItems="center"
+            justify="center"
+            container
+            className="grid"
+          >
+            <div className="paper-hearder-event">
+              <div id="hearder-event">
+                <p className="title"> AGENDA SEMANAL </p>
+                <div id="btn-fas-novo3" type="button" onClick={handleOpen}>
+                  <i class="fas fa-save"></i>
+                  <p classename="btn-novo">NOVO</p>
+                </div>
+              </div>
+            </div>
+            {/* #####################  MODAL EVENT  ##################### */}
+            <Modal
+              aria-labelledby="transition-modal-title"
+              aria-describedby="transition-modal-description"
+              className="modal"
+              open={open}
+              closeAfterTransition
+              BackdropComponent={Backdrop}
+              BackdropProps={{ timeout: 900 }}
+            >
+              <Fade in={open}>
+                <div className="paper">
+                  <Form ref={formRef} onSubmit={handleSubmit} className="form ">
+                    <h2 id="spring-modal-title">CADASTRO EVENTOS</h2>
+                    <Input
+                      name="description"
+                      id="description"
+                      label="DESCRIÇÃO"
+                      type="text"
+                      required
+                    />
+                    <InputFile
+                      name="event_image"
+                      id="event_image"
+                      label="IMAGEM / BANNER"
+                      type="file"
+                      required
+                    />
+                    <Input
+                      name="link"
+                      id="link"
+                      label="LINK FORMULÁRIO DE CADASTRO"
+                      type="text"
+                      required
+                    />
+                    <div className="acoes">
+                      <button
+                        type="submit"
+                        id="btn-fas-novo"
+                        class="btn btn-success"
+                      >
+                        <i class="fas fa-save"></i>
+                        Salvar
+                      </button>
+                      <button
+                        id="btn-fas-novo"
+                        class="fas fa-reply"
+                        class="btn btn-warning btn-xs"
+                        onClick={handleClose}
+                        BackdropProps={{ timeout: 1000 }}
+                      >
+                        <i class="fas fa-share"></i>
+                        Voltar
+                      </button>
+                    </div>
+                  </Form>
+                </div>
+              </Fade>
+            </Modal>
+          </Grid>
+          <div className="wrapper-event">
+            {Event.length > 0 ? (
+              Event.map((postEvent) => (
+                <div class="card">
+                  <div class="img">
+                    <img
+                      id="imgevent"
+                      src={
+                        "http://localhost:3333/uploads/images/events/" +
+                        postEvent.image
+                      }
+                      alt="pastor_image"
+                    />
+                  </div>
+                  <div className="content">
+                    <div className="title">{postEvent.description}</div>
+                    <div className="link-form">
+                      <i class="fas fa-external-link-square-alt"></i>
+                      <a href="#" 
+                        onClick={() => getUrl(postEvent.link)}
+                      >
+                      Link Inscrição
+                      </a>
+                    </div>
+                   
+                    <div className="btn-acao">
+                      <button 
+                         id="btn_acoes"
+                         class="btn btn-warning btn-xs"    
+                         onClick={() => handleOpenEdit(postEvent)}     
+                        >
+                         <i id="fas_acoes" class="fas fa-edit"></i>
+                         Editar
+                      </button>
+                      <button 
+                        id="btn_acoes"
+                        class="btn btn-danger btn-xs"
+                        onClick={() => DeleteEvent(postEvent.id)}
+                        >
+                        <i id="fas_acoes" class="fas fa-trash-alt"></i>
+                        Excluir
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p>Nada encontrado</p>
+            )}
+          </div>
+           {/* ##########    MODAL EDITAR EVENTOS      ########## */}
+           <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            className="modal"
+            open={openEdit}
+            >
+            <Fade in={openEdit}>
+              <div className="paper">
+                <Form
+                  ref={formRefEdit}
+                  onSubmit={handleSubmitEdit}
+                  className="form "
+                  >
+                  <h2 id="spring-modal-title"> EDITAR EVENTO </h2>
+                  
+                  <Input
+                      name="description"
+                      id="description"
+                      label="DESCRIÇÃO"
+                      type="text"
+                      required
+                    />
+                    <InputFile
+                      name="event_image"
+                      id="event_image"
+                      label="IMAGEM / BANNER"
+                      type="file"
+                      required
+                    />
+                    <Input
+                      name="link"
+                      id="link"
+                      label="LINK FORMULÁRIO DE CADASTRO"
+                      type="text"
+                      required
+                    />
+                  <div className="acoes">
+                    <button type="submit">Salvar</button>
+                    <button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleCloseEdit}
+                      >
+                      Voltar
+                    </button>
+                  </div>
+                </Form>
+              </div>
+            </Fade>
+          </Modal>
+        </Grid>
       </div>
     </React.Fragment>
   );

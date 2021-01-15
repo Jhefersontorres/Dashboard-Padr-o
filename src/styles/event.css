@@ -1,184 +1,75 @@
-#top-bar{
-    background: #f0f0f521;
-    height: 77px;
-    display: flex;
-    flex: 1 1;
-    justify-content: flex-end;
-    align-items: center;
-    box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2)
+.paper-hearder-event{
+    margin: 50px 0 30px 0;
 }
 
-#top-bar i {
-    padding: 10px;
-    font-size: 12px;
-}
-
-#top-bar p {
-    padding: 10px;
-    margin-right: 30px;
-}
-.paper{
-outline: none;
-}
-
-.paper-hearder{
-    box-shadow: 0 0 black;
-}
-
-#hearder{
+.paper-hearder-event #hearder-event{
+    width: 100%;
     display: flex;
     justify-content: space-between;
-    margin: 20px auto;
+    margin: 30px auto;
     align-items: center;
     padding: 17px;
 }
 
-Input {
-    background-color: #f0f0f5;
-    border: 0;
-    padding: 16px 24px;
-    font-size: 16px;
-    border-radius: 8px;
-    margin: 0 0 20px 10px;
-}
-
-
-.form h2{
-    background-color: #4b4b4b;
-    width: 50%;
-    text-align: center;
-    align-content: center;
-    margin: -71px 0 30px;
-    border-radius: 3px;
-    color: white;
-    font-size: 17px;
+.paper-hearder-event #hearder-event .title{
+    font-size: 20px;
     font-weight: 500;
-    padding: 13px;
-}
-
-.acoes{
-    margin: 40px 10px 0 0;
-}
-
-.acoes button{
-    margin-left: 10px;
-}
-
-
-
-
-#cards-events-views{
-    width: 75%;
-
-    display: grid;
-   
-    grid-template-columns: 1fr 1fr 3fr;
-
-    margin: auto;
-    place-items: center;
-    
-}
-
-
-
-#cards-events-views .card {
-    position: relative;
-    height: 600px;
-    width: 450px;
-    background: #fff;
-    /* margin: 22px; */
-    overflow: hidden;
-    border-radius: 20px;
-    transition: .6s;
-    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
-}
-
-#cards-events-views:hover .card {
-    
-   
-    opacity: 0.5;
-}
-
-#cards-events-views .card:hover {
-    filter: blur(0px);
-    transform: scale(1.1);
-    opacity: 1;
-}
-
-#cards-events-views .card .circle {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background: #000;
-    text-align: center;
-    clip-path: circle(180px at center 0);
-}
-
-#cards-events-views .card .circle h2 {
-    color: #fff;
-    font-size: 4em;
-    padding: 30px 0;
-}
-
-#cards-events-views .card .content {
-    position: absolute;
-    bottom: 10px;
-    padding: 20px;
-    text-align: center;
-    width: 100%;
-}
-
-#cards-events-views .card .content p {
-    color: #666666;
-}
-
-#cards-events-views .card .content a {
-    position: relative;
-    display: inline-block;
-    padding: 10px 20px;
-    color: #fff;
-    background: #000;
-    border-radius: 40px;
-    margin-top: 20px;
-    text-decoration: none;
-}
-
-#cards-events-views .card:nth-child(1) .circle, #cards-events-views .card:nth-child(1) .content a {
-    background: #ff5733;
-}
-
-#cards-events-views .card:nth-child(2) .circle, #cards-events-views .card:nth-child(2) .content a {
-    background: #1DA487;
-}
-
-#cards-events-views .card:nth-child(3) .circle, #cards-events-views .card:nth-child(3) .content a {
-    background: #8227aa;
-}
-
-.content div{
-    display: flex;
-    flex: 1;
-    justify-content: end;
-    margin: auto;
-}
-
-.content div h4{
     margin-right: 20px;
 }
 
-.content #imgevent{
-    width: 55%;
+.paper-hearder-event #hearder-event #btn-fas-novo3{
+    width: 140px;
+    display: flex;
+    height: 40px;
+    justify-content: space-between;
+    background-color: #49aa49;
+    border-radius: 5px;
+    padding: 10px 30px;
+    transition: .6s;
+    color:#ffffff;
+    font-size: 15px;
+}
+.paper-hearder-event #hearder-event #btn-fas-novo3:hover{
+    background-color: #50bd50;
+    cursor: pointer;
 }
 
+.wrapper-event{
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+.wrapper-event .card{
+    background: #fff;
+    width: calc(30% - 0px);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.15);
+    margin: 10px 10px 30px;
+}
 
+.wrapper-event .card .img{
+    height: 200px;
+    width: 100%;
+}
+.wrapper-event .card .img img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+.wrapper-event .card .btn-acao{
+    margin: 20px 0;
+    width: 100%;
+}
 
-#without-anything{
-margin: auto;
-    height: 100%;}
+.wrapper-event .card .btn-acao #btn_acoes{
+    width: 100%;
+}
 
-
-#imagens{
-    max-width: 100%;
-    /* height: 100%; */
-    justify-content: center;
+.wrapper-event .card .btn-acao #btn_acoes #fas_acoes{
+    margin-right: 10px;  
 }

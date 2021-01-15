@@ -1,4 +1,126 @@
-#top-bar{
+
+.paper-hearder-schedule{
+    margin: 36px 0 10px 0;
+}
+
+#hearder-schedule{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin: 30px auto;
+  align-items: center;
+  padding: 17px;
+}
+
+#hearder-schedule .title{
+    font-size: 35px;
+    font-weight: 500;
+    margin-right: 20px;
+}
+
+#hearder-schedule #btn-fas-novo{
+    width: 140px;
+    display: flex;
+    height: 40px;
+    justify-content: space-between;
+    padding: 10px 30px;
+  }
+  
+  #hearder-schedule .fas{
+    font-size: 20px;
+    font-size: 20px;
+    color: aliceblue;
+  }
+  
+  #hearder-schedule .btn-novo{
+    margin-left: 17px;
+  }
+  
+  .wrapper-schedule{
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;   
+  }
+
+  .wrapper-schedule .hourDay{
+    background: #fff;
+    width: calc(30% - 0px);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.15);
+    margin: 10px 10px 30px;
+  }
+.hourDay{
+    min-width: 315px;
+    max-width: 650px;
+}
+
+.hourDay #title-initial{
+    display: flex;
+    margin: 10px 0;
+}
+
+.hourDay #title-initial p{
+    font-weight: 500;
+    font-size: 25px;
+}
+#fas-schedule{
+    color: #000;
+    margin-right: 10px;
+}
+
+.hourDay #hourday_information{
+    display: flex;
+    margin: 10px 0;
+}
+#day_hour{
+    margin-right: 20px;
+    font-size: 17px;
+}
+#infor{
+    margin: 10px 0;
+}
+
+#btn-acao-schedule{
+    margin: 20px 0;
+    width: 100%;
+}
+
+#btn-acao-schedule #btn_acoes{
+    width: 110px;
+  }
+  
+#btn-acao-schedule #fas_acoes {
+    margin-right: 10px;
+  }
+  
+#btn-acao-schedule .acoes{
+    display: flex;
+  }
+
+
+
+  @media (max-width: 1045px) {
+    .wrapper-schedule .hourDay{
+      width: calc(50% - 10px);
+      margin: 10px 0;
+    }
+  }
+  
+  @media (max-width: 702px) {
+    .wrapper-schedule .hourDay{
+      width: 100%;
+    }
+  }
+  
+
+
+
+/*#top-bar{
     background: #f0f0f521;
     height: 77px;
     display: flex;
@@ -51,13 +173,13 @@ Input {
 .form h2{
     background-color: #4b4b4b;
     width: 50%;
-    /* height: 60px; */
+    /* height: 60px; *
     text-align: center;
     align-content: center;
     /* align-items: center; */
     /* align-self: center; */
     /* justify-content: center; */
-    /* justify-items: center; */
+    /* justify-items: center; *
     margin: -71px 0 30px;
     border-radius: 3px;
     color: white;
@@ -104,7 +226,7 @@ Input {
     transform: scale(1.1);
     opacity: 1;
 }
-/*
+
 #cards-Schedule-views .card .circle {
     position: relative;
     width: 100%;
@@ -119,7 +241,7 @@ Input {
     font-size: 4em;
     padding: 30px 0;
 }
-*/
+
 #cards-Schedule-views .card .content {
     position: absolute;
     bottom: 10px;
@@ -168,4 +290,4 @@ Input {
 
 #without-anything{
 margin: auto;
-    height: 100%;}
+    height: 100%;} */ 

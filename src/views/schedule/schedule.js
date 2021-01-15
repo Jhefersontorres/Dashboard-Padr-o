@@ -45,13 +45,13 @@ export default function Schedule() {
         day: schedule.day_unformated,
         hour: schedule.hour,
         local: schedule.local,
-        description: schedule.description
+        description: schedule.description,
       });
     }, 100);
   };
 
   const handleCloseEdit = () => {
-    console.log("d")
+    console.log("d");
     setOpenEdit(false);
   };
 
@@ -118,18 +118,19 @@ export default function Schedule() {
     fetch("http://localhost:3333/schedule")
       .then((response) => response.json())
       .then((response) => {
-        response.map(schedule => {
+        response.map((schedule) => {
+          console.log(response)
           const date = new Date();
 
           const year = date.getFullYear();
-          const day = schedule.day.split('/');
+          const day = schedule.day.split("/");
 
           const day_unformated = `${year}-${day[1]}-${day[0]}`;
 
           schedule.day_unformated = day_unformated;
         });
 
-        console.log(response)
+        console.log(response);
         setSchedule(response);
       })
       .catch((err) => {
@@ -138,7 +139,7 @@ export default function Schedule() {
   }
 
   function editSchedule(dataSchedule) {
-    fetch("http://localhost:3333/schedule/" + dataSchedule.id ,  {
+    fetch("http://localhost:3333/schedule/" + dataSchedule.id, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -163,17 +164,245 @@ export default function Schedule() {
     getSchedule();
   }, []);
 
+  function DeleteSchedule(id){
+    console.log(id)
+    fetch("http://localhost:3333/schedule/" + id,{
+      method: "DELETE",
+    })
+    .then((response) => response.json())
+    .then((response) => {
+      getSchedule();
+      alert(response.message);
+      console.log(response);
+    })
+    .catch((err) => {
+      console.log(err.message, "Oopps ocorreu um erro de conexão")
+    })
+  }
+
   return (
     <React.Fragment>
       <div classename="container">
         <SideBar />
-        <div id="top-bar">
-          <i class="fa fa-user-circle"></i>
-          <p>Jheferson torres</p>
-        </div>
+        <Grid container justify="center">
+          <Grid
+            spacing={4}
+            alignItems="center"
+            justify="center"
+            container
+            className="grid"
+            >
+            <div className="paper-hearder-schedule">
+              <div id="hearder-schedule">
+                <p className="title"> AGENDA SEMANAL </p>
+                <div
+                  id="btn-fas-novo"
+                  type="button"
+                  class="btn btn-success"
+                  onClick={handleOpen}
+                  >
+                  <i class="fas fa-save"></i>
+                  <p classename="btn-novo">NOVO</p>
+                </div>
+              </div>
+            </div>
+            {/* ###########################    MODAL DE CADASTRAMENTO #################*/}
 
+            <Modal
+              aria-labelledby="transition-modal-title"
+              aria-describedby="transition-modal-description"
+              className="modal"
+              open={open}
+              closeAfterTransition
+              BackdropComponent={Backdrop}
+              BackdropProps={{ timeout: 900 }}
+            >
+              <Fade in={open}>
+                <div className="paper">
+                  <Form ref={formRef} onSubmit={handleSubmit} className="form ">
+                    <h2 id="spring-modal-title"> CADASTRO AGENDA SEMANAL </h2>
+                    <div id="date-hour">
+                      <Input
+                        name="day"
+                        id="day"
+                        label="DATA"
+                        type="date"
+                        required
+                      />
+                      <Input
+                        name="hour"
+                        id="hour"
+                        label="HORÁRIO"
+                        type="time"
+                        required
+                      />
+                    </div>
+                    <Input
+                      name="local"
+                      id="local"
+                      label="LOCAL"
+                      type="text"
+                      placeholder="Ex: IPR Central"
+                      required
+                    />
+                    <Input
+                      name="description"
+                      id="description"
+                      label="DESCRIÇÃO"
+                      type="text"
+                      placeholder="Ex: CULTO ALIANÇA"
+                      required
+                    />
+                    <div className="acoes">
+                      <button
+                        type="submit"
+                        id="btn-fas-novo"
+                        class="btn btn-success"
+                        >
+                        <i class="fas fa-save"></i>
+                        <p>Salvar</p>
+                      </button>
+                      <button
+                        id="btn-fas-novo"
+                        class="fas fa-reply"
+                        class="btn btn-warning btn-xs"
+                        onClick={handleClose}
+                        BackdropProps={{ timeout: 1000 }}
+                        >
+                        <i class="fas fa-share"></i>
+                        Voltar
+                      </button>
+                    </div>
+                  </Form>
+                </div>
+              </Fade>
+            </Modal>
+          </Grid>
 
-        
+          {/* ###########################   GET CARD SCHEDULES #################*/}
+          <div class="wrapper-schedule">
+            {schedules.length > 0 ? (
+              schedules.map((postSchedule) => (
+               
+                <div class="hourDay">
+                  <div id="title-initial">
+                   <p> <i id="fas-schedule" class="fas fa-calendar-alt"></i>
+                    Agenda</p>
+                  </div>
+                  <div id="hourday_information">
+                    <p id="day_hour" >
+                      <i id="fas-schedule" class="fas fa-calendar-check"></i>
+                      {postSchedule.day}
+                    </p>
+                    <p id="day_hour" >
+                      <i id="fas-schedule" class="fas fa-clock"></i>
+                      {postSchedule.hour}
+                    </p>
+                  </div>
+                  <div id="information">
+                    <p id="infor">
+                      <i id="fas-schedule" class="fas fa-map-marker-alt"></i>
+                      {postSchedule.local}
+                    </p>
+                    <p id="infor">
+                    <i id="fas-schedule" class="fas fa-marker"></i>
+                      {postSchedule.description}
+                    </p>
+                  </div>
+                  <div id="btn-acao-schedule">
+                    <a
+                      id="btn_acoes"
+                      class="btn btn-warning btn-xs"
+                      href="#"
+                      onClick={() => handleOpenEdit(postSchedule)}
+                    >
+                      <i id="fas_acoes" class="fas fa-edit"></i>
+                      Editar
+                    </a>
+                    <a
+                      id="btn_acoes"
+                      class="btn btn-danger btn-xs"
+                      href="#"
+                      data-toggle="modal"
+                      data-target="#delete-modal"
+                      onClick={() => DeleteSchedule(postSchedule.id)}
+                    >
+                      <i id="fas_acoes" class="fas fa-trash-alt"></i>
+                      Excluir
+                    </a>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p>Nada encontrado</p>
+            )}
+          </div>
+          
+          {/* ##########    MODAL EDITAR AGENDA      ########## */}
+
+          <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            className="modal"
+            open={openEdit}
+            >
+            <Fade in={openEdit}>
+              <div className="paper">
+                <Form
+                  ref={formRefEdit}
+                  onSubmit={handleSubmitEdit}
+                  className="form "
+                  >
+                  <h2 id="spring-modal-title"> CADASTRO POTS AGENDA </h2>
+                  <div id="date-hour">
+                    <Input
+                      name="day"
+                      id="dayedit"
+                      label="DATA"
+                      type="date"
+                      value="date"
+                      required
+                    />
+                    <Input
+                      name="hour"
+                      id="houredit"
+                      label="HORÁRIO"
+                      type="time"
+                      required
+                    />
+                  </div>
+                  <Input
+                    name="local"
+                    id="localedit"
+                    label="LOCAL"
+                    type="text"
+                    placeholder="Ex: IPR Central"
+                    required
+                  />
+                  <Input
+                    name="description"
+                    id="descriptionedit"
+                    label="DESCRIÇÃO"
+                    type="text"
+                    placeholder="Ex: CULTO ALIANÇA"
+                    required
+                  />
+                  <div className="acoes">
+                    <button type="submit">Salvar</button>
+                    <button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleCloseEdit}
+                      >
+                      Voltar
+                    </button>
+                  </div>
+                </Form>
+              </div>
+            </Fade>
+          </Modal>
+        </Grid>
+
       </div>
     </React.Fragment>
   );
