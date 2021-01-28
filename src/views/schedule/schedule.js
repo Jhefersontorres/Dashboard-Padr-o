@@ -216,6 +216,7 @@ export default function Schedule() {
               closeAfterTransition
               BackdropComponent={Backdrop}
               BackdropProps={{ timeout: 900 }}
+              
             >
               <Fade in={open}>
                 <div className="paper">
