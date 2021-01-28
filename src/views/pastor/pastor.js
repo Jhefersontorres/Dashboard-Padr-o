@@ -125,7 +125,11 @@ export default function Pastor() {
             <div className="paper-hearder-pastor">
               <div id="hearder-pastor">
                 <p className="title"> CADASTRO DE PASTORES  </p>
-                <div id="btn-fas-novo3" type="button" onClick={handleOpen}>
+                <div 
+                  id="btn-fas-novo" 
+                  type="button" 
+                  onClick={handleOpen}
+                  >
                   <i class="fas fa-save"></i>
                   <p classename="btn-novo">NOVO</p>
                 </div>
@@ -184,7 +188,7 @@ export default function Pastor() {
               </Fade>
             </Modal>
           </Grid>
-          <div className="wrapper-event">
+          <div className="wrapper-pastor">
             {Pastor.length > 0 ? (
               Pastor.map((postPastor) => (
                 <div class="card">
