@@ -236,6 +236,8 @@ export default function Schedule() {
                         label="HORÁRIO"
                         type="time"
                         required
+
+                        
                       />
                     </div>
                     <Input
